@@ -19,7 +19,7 @@ namespace StudentsEvents.API.Controllers
             _logger = logger;
         }
         [Authorize]
-        [HttpGet(Name = "AuthorizedGetWeatherForecast")]
+        [HttpGet("AuthorizedGetWeatherForecast")]
         public IEnumerable<WeatherForecast> AuthorizedGet()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -30,7 +30,7 @@ namespace StudentsEvents.API.Controllers
             })
             .ToArray();
         }
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet("GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
