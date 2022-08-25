@@ -85,12 +85,6 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-//using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
-//{
-//    var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//    context.Database.EnsureCreated();
-//}
-
 app.UseAuthentication();
 app.UseAuthorization();
 
