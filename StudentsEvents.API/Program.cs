@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StudentsEvents.API.DataModels;
+using StudentsEvents.API.Models;
+using StudentsEvents.Library.Data;
+using StudentsEvents.Library.DbAccess;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -73,6 +76,18 @@ builder.Services.AddSwaggerGen(c => {
         }
     });
 });
+
+builder.Services.AddAutoMapper(config =>
+{
+    config.CreateMap<EventDatabaseModel, EventModel>();
+    config.CreateMap<EventModel, EventDatabaseModel>();
+    config.CreateMap<TagDatabaseModel, TagModel>();
+    config.CreateMap<TagModel, TagDatabaseModel>();
+});
+
+builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddTransient<IEventData, EventData>();
+builder.Services.AddTransient<ITagData, TagData>();
 
 var app = builder.Build();
 

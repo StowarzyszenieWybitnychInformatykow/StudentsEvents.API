@@ -15,6 +15,10 @@ namespace StudentsEvents.Library.Data
         {
             throw new NotImplementedException();
         }
+        public async Task<EventDatabaseModel> GetEventByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
         public async Task CreateEventAsync(EventDatabaseModel model)
         {
             throw new NotImplementedException();

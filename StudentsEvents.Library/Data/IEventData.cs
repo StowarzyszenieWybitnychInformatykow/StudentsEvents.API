@@ -7,6 +7,7 @@ namespace StudentsEvents.Library.Data
         Task CreateEventAsync(EventDatabaseModel model);
         Task DeleteEventAsync(EventDatabaseModel model);
         Task<IEnumerable<EventDatabaseModel>> GetEventsAsync();
+        Task<EventDatabaseModel> GetEventByIdAsync(Guid id);
         Task UpdateEventAsync(EventDatabaseModel model);
     }
 }
