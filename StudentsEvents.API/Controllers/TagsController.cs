@@ -30,8 +30,8 @@ namespace StudentsEvents.API.Controllers
         {
             await _tagData.CreateAsync(model);
         }
-        [HttpPut("{id}")]
-        public async Task Update(int id, TagModel model)
+        [HttpPut]
+        public async Task Update(TagModel model)
         {
             await _tagData.UpdateAsync(model);
         }

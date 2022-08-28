@@ -30,7 +30,7 @@ namespace StudentsEvents.API.Services
             await _eventData.CreateEventAsync(eventToAdd);
         }
 
-        public async Task UpdateAsync(Guid id, EventModel modified)
+        public async Task UpdateAsync(EventModel modified)
         {
             var eventToModify = _mapper.Map<EventDatabaseModel>(modified);
             await _eventData.UpdateEventAsync(eventToModify);

@@ -35,10 +35,10 @@ namespace StudentsEvents.API.Controllers
             await _eventData.CreateAsync(data);
         }
 
-        [HttpPut("{id}")]
-        public async void Put(Guid id, [FromBody] EventModel modified)
+        [HttpPut]
+        public async void Put([FromBody] EventModel modified)
         {
-            await _eventData.UpdateAsync(id, modified);
+            await _eventData.UpdateAsync(modified);
         }
 
         [HttpDelete("{id}")]

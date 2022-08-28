@@ -7,6 +7,7 @@ using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DbAccess;
+using StudentsEvents.Library.SampleData;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -88,8 +89,8 @@ builder.Services.AddSwaggerGen(c => {
 
 //Data
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddTransient<IEventData, EventData>();
-builder.Services.AddTransient<ITagData, TagData>();
+builder.Services.AddTransient<IEventData, SampleEventData>();
+builder.Services.AddTransient<ITagData, SampleTagData>();
 
 //Services
 builder.Services.AddTransient<IEventDataManaging, EventDataManaging>();

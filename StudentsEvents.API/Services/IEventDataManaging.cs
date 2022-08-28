@@ -8,6 +8,6 @@ namespace StudentsEvents.API.Services
         Task DeleteAsync(Guid id);
         Task<IEnumerable<EventModel>> GetAllAsync();
         Task<EventModel> GetByIdAsync(Guid id);
-        Task UpdateAsync(Guid id, EventModel modified);
+        Task UpdateAsync(EventModel modified);
     }
 }
