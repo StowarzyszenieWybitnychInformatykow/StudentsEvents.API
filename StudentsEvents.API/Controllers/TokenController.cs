@@ -28,7 +28,6 @@ namespace StudentsEvents.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] TokenRequestModel model)
         {
-            _logger.LogCritical(_config.GetConnectionString("StudentsEventsAuthDb"));
 
             if (model?.grant_type == null)
             {
