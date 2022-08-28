@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StudentsEvents.API.DataModels;
+using StudentsEvents.API.Models;
+using StudentsEvents.API.Services;
+using StudentsEvents.Library.Data;
+using StudentsEvents.Library.DbAccess;
+using StudentsEvents.Library.SampleData;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -44,6 +49,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAutoMapper(config =>
+{
+    config.CreateMap<EventDatabaseModel, EventModel>();
+    config.CreateMap<EventModel, EventDatabaseModel>();
+    config.CreateMap<TagDatabaseModel, TagModel>();
+    config.CreateMap<TagModel, TagDatabaseModel>();
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
@@ -74,13 +87,19 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
+//Data
+//TODO: Change Singleton to Transient
+builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<IEventData, SampleEventData>();
+builder.Services.AddSingleton<ITagData, SampleTagData>();
+
+//Services
+builder.Services.AddSingleton<IEventDataManaging, EventDataManaging>();
+builder.Services.AddSingleton<ITagDataManaging, TagDataManaging>();
+
 var app = builder.Build();
 
-app.UseStaticFiles();
-app.UseSwagger(c =>
-{
-    c.SerializeAsV2 = true;
-});
+app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
