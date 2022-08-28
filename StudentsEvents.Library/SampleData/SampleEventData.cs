@@ -1,10 +1,5 @@
 ﻿using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentsEvents.Library.SampleData
 {
@@ -28,6 +23,7 @@ namespace StudentsEvents.Library.SampleData
                 StudentGovernmentId = new Guid(),
                 Thumbnail = "Url",
                 Tickets = null,
+                Tags = new List<TagDatabaseModel>() { new TagDatabaseModel() { Id = 1, Name = "tag1" } }
             });
         }
         public async Task CreateEventAsync(EventDatabaseModel model)

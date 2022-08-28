@@ -88,13 +88,14 @@ builder.Services.AddSwaggerGen(c => {
 });
 
 //Data
-builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddTransient<IEventData, SampleEventData>();
-builder.Services.AddTransient<ITagData, SampleTagData>();
+//TODO: Change Singleton to Transient
+builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<IEventData, SampleEventData>();
+builder.Services.AddSingleton<ITagData, SampleTagData>();
 
 //Services
-builder.Services.AddTransient<IEventDataManaging, EventDataManaging>();
-builder.Services.AddTransient<ITagDataManaging, TagDataManaging>();
+builder.Services.AddSingleton<IEventDataManaging, EventDataManaging>();
+builder.Services.AddSingleton<ITagDataManaging, TagDataManaging>();
 
 var app = builder.Build();
 
