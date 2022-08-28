@@ -11,19 +11,23 @@ namespace StudentsEvents.Library.Data
         {
             _data = data;
         }
-        public async Task<IEnumerable<EventDatabaseModel>> GetTagsAsync()
+        public async Task<IEnumerable<TagDatabaseModel>> GetTagsAsync()
         {
             throw new NotImplementedException();
         }
-        public async Task CreateTagAsync(EventDatabaseModel model)
+        public async Task CreateTagAsync(TagDatabaseModel model)
         {
             throw new NotImplementedException();
         }
-        public async Task UpdateTagAsync(EventDatabaseModel model)
+        public async Task UpdateTagAsync(TagDatabaseModel model)
         {
             throw new NotImplementedException();
         }
-        public async Task DeleteTagAsync(EventDatabaseModel model)
+        public async Task DeleteTagAsync(TagDatabaseModel model)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<TagDatabaseModel> GetTagByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

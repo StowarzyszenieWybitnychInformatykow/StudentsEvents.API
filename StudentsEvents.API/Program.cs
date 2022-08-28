@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StudentsEvents.API.DataModels;
 using StudentsEvents.API.Models;
+using StudentsEvents.API.Services;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DbAccess;
 using System.Text;
@@ -47,6 +48,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAutoMapper(config =>
+{
+    config.CreateMap<EventDatabaseModel, EventModel>();
+    config.CreateMap<EventModel, EventDatabaseModel>();
+    config.CreateMap<TagDatabaseModel, TagModel>();
+    config.CreateMap<TagModel, TagDatabaseModel>();
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
@@ -77,25 +86,18 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
-builder.Services.AddAutoMapper(config =>
-{
-    config.CreateMap<EventDatabaseModel, EventModel>();
-    config.CreateMap<EventModel, EventDatabaseModel>();
-    config.CreateMap<TagDatabaseModel, TagModel>();
-    config.CreateMap<TagModel, TagDatabaseModel>();
-});
-
+//Data
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IEventData, EventData>();
 builder.Services.AddTransient<ITagData, TagData>();
 
+//Services
+builder.Services.AddTransient<IEventDataManaging, EventDataManaging>();
+builder.Services.AddTransient<ITagDataManaging, TagDataManaging>();
+
 var app = builder.Build();
 
-app.UseStaticFiles();
-app.UseSwagger(c =>
-{
-    c.SerializeAsV2 = true;
-});
+app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();

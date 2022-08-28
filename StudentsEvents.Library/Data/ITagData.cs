@@ -4,9 +4,10 @@ namespace StudentsEvents.Library.Data
 {
     public interface ITagData
     {
-        Task CreateTagAsync(EventDatabaseModel model);
-        Task DeleteTagAsync(EventDatabaseModel model);
-        Task<IEnumerable<EventDatabaseModel>> GetTagsAsync();
-        Task UpdateTagAsync(EventDatabaseModel model);
+        Task CreateTagAsync(TagDatabaseModel model);
+        Task DeleteTagAsync(TagDatabaseModel model);
+        Task<TagDatabaseModel> GetTagByIdAsync(int id);
+        Task<IEnumerable<TagDatabaseModel>> GetTagsAsync();
+        Task UpdateTagAsync(TagDatabaseModel model);
     }
 }
