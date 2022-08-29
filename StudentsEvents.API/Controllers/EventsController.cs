@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
-using StudentsEvents.Library.Data;
 
 namespace StudentsEvents.API.Controllers
 {
@@ -18,33 +17,47 @@ namespace StudentsEvents.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<EventModel>> Get()
+        public async Task<IActionResult> Get([FromQuery] PagingModel paging)
         {
-            return await _eventData.GetAllAsync();
+            var owners = await _eventData.GetAllAsync(paging);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
         }
 
         [HttpGet("{id}")]
-        public async Task<EventModel> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return await _eventData.GetByIdAsync(id);
+            return Ok(await _eventData.GetByIdAsync(id));
         }
 
         [HttpPost]
-        public async void Create([FromBody] EventModel data)
+        public async Task<IActionResult> Create([FromBody] EventModel data)
         {
             await _eventData.CreateAsync(data);
+            return Ok();
         }
 
         [HttpPut]
-        public async void Put([FromBody] EventModel modified)
+        public async Task<IActionResult> Put([FromBody] EventModel modified)
         {
             await _eventData.UpdateAsync(modified);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async void Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _eventData.DeleteAsync(id);
+            return Ok();
         }
     }
 }
