@@ -14,9 +14,14 @@ namespace StudentsEvents.API.Services
             _mapper = mapper;
             _tagData = tagData;
         }
-        public async Task<IEnumerable<TagModel>> GetAllTagsAsync()
+        public async Task<PagedList<TagModel>> GetAllTagsAsync(PagingModel paging)
         {
-            return _mapper.Map<IEnumerable<TagModel>>(await _tagData.GetTagsAsync());
+
+            var data = _mapper.Map<IEnumerable<TagModel>>(await _tagData.GetTagsAsync());
+
+            return PagedList<TagModel>.ToPagedList(data,
+                        paging.PageNumber,
+                        paging.PageSize);
         }
         public async Task<TagModel> GetTagByIdAsync(int id)
         {

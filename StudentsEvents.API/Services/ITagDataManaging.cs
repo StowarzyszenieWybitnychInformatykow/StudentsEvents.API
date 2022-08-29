@@ -6,7 +6,7 @@ namespace StudentsEvents.API.Services
     {
         Task CreateAsync(TagModel model);
         Task DeleteAsync(TagModel model);
-        Task<IEnumerable<TagModel>> GetAllTagsAsync();
+        Task<PagedList<TagModel>> GetAllTagsAsync(PagingModel paging);
         Task<TagModel> GetTagByIdAsync(int id);
         Task UpdateAsync(TagModel model);
     }

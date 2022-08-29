@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
 
@@ -16,29 +17,43 @@ namespace StudentsEvents.API.Controllers
             _tagData = tagData;
         }
         [HttpGet]
-        public async Task<IEnumerable<TagModel>> Get()
+        public async Task<IActionResult> Get([FromQuery] PagingModel paging)
         {
-            return await _tagData.GetAllTagsAsync();
+            var owners = await _tagData.GetAllTagsAsync(paging);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
         }
         [HttpGet("{id}")]
-        public async Task<TagModel> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await _tagData.GetTagByIdAsync(id);
+            return Ok(await _tagData.GetTagByIdAsync(id));
         }
         [HttpPost]
-        public async Task Create(TagModel model)
+        public async Task<IActionResult> Create(TagModel model)
         {
             await _tagData.CreateAsync(model);
+            return Ok();
         }
         [HttpPut]
-        public async Task Update(TagModel model)
+        public async Task<IActionResult> Update(TagModel model)
         {
             await _tagData.UpdateAsync(model);
+            return Ok();
         }
         [HttpDelete]
-        public async Task Delete(TagModel model)
+        public async Task<IActionResult> Delete(TagModel model)
         {
             await _tagData.DeleteAsync(model);
+            return Ok();
         }
     }
 }

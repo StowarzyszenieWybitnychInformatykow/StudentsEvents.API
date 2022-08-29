@@ -6,7 +6,7 @@ namespace StudentsEvents.API.Services
     {
         Task CreateAsync(EventModel data);
         Task DeleteAsync(Guid id);
-        Task<IEnumerable<EventModel>> GetAllAsync();
+        Task<PagedList<EventModel>> GetAllAsync(PagingModel paging);
         Task<EventModel> GetByIdAsync(Guid id);
         Task UpdateAsync(EventModel modified);
     }

@@ -14,9 +14,13 @@ namespace StudentsEvents.API.Services
             _mapper = mapper;
             _eventData = eventData;
         }
-        public async Task<IEnumerable<EventModel>> GetAllAsync()
+        public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging)
         {
-            return _mapper.Map<IEnumerable<EventModel>>(await _eventData.GetEventsAsync());
+            var data = _mapper.Map<IEnumerable<EventModel>>(await _eventData.GetEventsAsync());
+
+            return PagedList<EventModel>.ToPagedList(data.OrderBy(x => x.StartDate),
+                        paging.PageNumber,
+                        paging.PageSize);
         }
 
         public async Task<EventModel> GetByIdAsync(Guid id)
