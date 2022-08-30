@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StudentsEvents.API.DataModels;
 using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
 using StudentsEvents.Library.Data;
@@ -21,13 +20,13 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = configuration["Auth:Jwt:Issuer"];
+        options.Authority = configuration["Issuer"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = configuration["Auth:Jwt:Issuer"],
+            ValidIssuer = configuration["Issuer"],
             ValidateAudience = true,
-            ValidAudience = configuration["Auth:Jwt:Audience"],
+            ValidAudience = configuration["Audience"],
             ValidateLifetime = true
         };
     });
