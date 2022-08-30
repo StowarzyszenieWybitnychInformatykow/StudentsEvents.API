@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,38 +17,21 @@ IConfiguration configuration = new ConfigurationBuilder()
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
-        connectionString: configuration.GetConnectionString("StudentsEventsAuthDb")
-        ));
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
-{
-    config.Password.RequireUppercase = false;
-    config.Password.RequireLowercase = false;
-    config.Password.RequiredLength = 4;
-    config.Password.RequireDigit = false;
-    config.Password.RequireNonAlphanumeric = false;
-    config.SignIn.RequireConfirmedEmail = false;
-})
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = "JwtBearer";
-    options.DefaultChallengeScheme = "JwtBearer";
-}).AddJwtBearer("JwtBearer", JWTBeareroptions =>
-{
-    JWTBeareroptions.TokenValidationParameters = new TokenValidationParameters
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Auth:Jwt:Key"])),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.FromMinutes(1)
-    };
-});
+        options.Authority = configuration["Auth:Jwt:Issuer"];
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = configuration["Auth:Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = configuration["Auth:Jwt:Audience"],
+            ValidateLifetime = true
+        };
+    });
+
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -103,6 +87,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
