@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentsEvents.API.Models;
@@ -37,18 +38,21 @@ namespace StudentsEvents.API.Controllers
         {
             return Ok(await _tagData.GetTagByIdAsync(id));
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(TagModel model)
         {
             await _tagData.CreateAsync(model);
             return Ok();
         }
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Update(TagModel model)
         {
             await _tagData.UpdateAsync(model);
             return Ok();
         }
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(TagModel model)
         {
