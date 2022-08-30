@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
@@ -40,19 +41,20 @@ namespace StudentsEvents.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] EventModel data)
         {
             await _eventData.CreateAsync(data);
             return Ok();
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] EventModel modified)
         {
             await _eventData.UpdateAsync(modified);
             return Ok();
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
