@@ -72,6 +72,16 @@
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
   </Target>
   <ItemGroup>
-    <Build Include="dbo\Tables\event.sql" />
+    <Build Include="dbo\Tables\Event.sql" />
+    <Build Include="dbo\Tables\StudentGovernment.sql" />
+    <Build Include="dbo\Tables\Tag.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetUnpublishedByGovernmentId.sql" />
+    <Build Include="dbo\Views\vwEvent_GetAll.sql" />
+    <Build Include="dbo\Views\vwEvent_GetUnpublished.sql" />
+    <Build Include="dbo\Views\vwStudentGovernment_GetAll.sql" />
+    <Build Include="dbo\Views\vwTag_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spTag_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spStudentGovernment_Add.sql" />
   </ItemGroup>
 </Project>
