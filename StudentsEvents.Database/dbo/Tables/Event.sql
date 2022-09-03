@@ -4,13 +4,14 @@ CREATE TABLE [dbo].[Event]
   [Name] NVARCHAR(128) NOT NULL,
   [ShortDescription] NVARCHAR(MAX) NOT NULL,
   [Thumbnail] NVARCHAR(256) NOT NULL,
+  [Website] NVARCHAR(256) NOT NULL, /* NEW */
   [Tickets] BIT NOT NULL,
   [Latitude] FLOAT NOT NULL,
   [Longitude] FLOAT NOT NULL,
   [City] NVARCHAR(128) NOT NULL, /* NEW */
   [Region] NVARCHAR(128) NOT NULL, /* NEW */
   [Tags] NVARCHAR(MAX) NOT NULL,
-  [StartDate] DATETIME NOT NULL,
+  [StartDate] DATETIME2 NOT NULL,
   [EndDate] DATETIME2 NOT NULL,
   [StudentGovernmentId] INT NOT NULL,
   [Published] BIT NOT NULL DEFAULT 0,
