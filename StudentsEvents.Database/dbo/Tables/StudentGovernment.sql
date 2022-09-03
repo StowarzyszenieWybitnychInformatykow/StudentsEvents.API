@@ -1,0 +1,13 @@
+CREATE TABLE [dbo].[StudentGovernment]
+(
+  [Id] INT NOT NULL PRIMARY KEY IDENTITY,
+  [Name] NVARCHAR(128) NOT NULL,
+  [ShortName] NVARCHAR(32) NOT NULL,
+  [University] NVARCHAR(128) NOT NULL,
+  [City] NVARCHAR(128) NOT NULL,
+  [Region] NVARCHAR(128) NOT NULL,
+  [Website] NVARCHAR(256) NOT NULL,
+  [Email] NVARCHAR(128) NOT NULL,
+  [Username] NVARCHAR(128) NOT NULL,
+  [PasswordHash] NVARCHAR(128) NOT NULL,
+)

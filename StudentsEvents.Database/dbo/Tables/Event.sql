@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[Event]
+(
+  [Id] INT NOT NULL PRIMARY KEY IDENTITY,
+  [Name] NVARCHAR(128) NOT NULL,
+  [ShortDescription] NVARCHAR(MAX) NOT NULL,
+  [Thumbnail] NVARCHAR(256) NOT NULL,
+  [Tickets] BIT NOT NULL,
+  [Latitude] FLOAT NOT NULL,
+  [Longitude] FLOAT NOT NULL,
+  [City] NVARCHAR(128) NOT NULL, /* NEW */
+  [Region] NVARCHAR(128) NOT NULL, /* NEW */
+  [Tags] NVARCHAR(MAX) NOT NULL,
+  [StartDate] DATETIME NOT NULL,
+  [EndDate] DATETIME2 NOT NULL,
+  [StudentGovernmentId] INT NOT NULL,
+  [Published] BIT NOT NULL DEFAULT 0,
+  [Owner] NVARCHAR(128) NOT NULL,
+  [LastModified] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+
+
