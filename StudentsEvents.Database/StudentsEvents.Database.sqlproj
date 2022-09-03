@@ -83,5 +83,8 @@
     <Build Include="dbo\Stored Procedures\spTag_Add.sql" />
     <Build Include="dbo\Stored Procedures\spEvent_Add.sql" />
     <Build Include="dbo\Stored Procedures\spStudentGovernment_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spTag_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spStudentGovernment_GetById.sql" />
   </ItemGroup>
 </Project>
