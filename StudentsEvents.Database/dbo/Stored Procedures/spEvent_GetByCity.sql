@@ -1,5 +1,11 @@
-CREATE VIEW [dbo].[vwEvent_Get.sql]
-  AS SELECT e.Id, e.Name, e.ShortDescription,
+CREATE PROCEDURE [dbo].[spEvent_GetById]
+  @City INT
+AS
+
+BEGIN
+  SET NOCOUNT ON;
+
+  SELECT e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,
   e.Language, e.Tags, e.Upvotes,
@@ -8,5 +14,9 @@ CREATE VIEW [dbo].[vwEvent_Get.sql]
   e.StartDate, e.EndDate,
   e.StudentGovernmentId, e.Published, e.OwnerID, e.Organization,
   e.LastModified
-  FROM [dbo].[Event] as e 
-  ORDER BY e.StartDate ASC
+  FROM [dbo].[Event] e
+  WHERE e.City LIKE '%' + @City + '%'
+  AND e.Published = 1
+  AND e.EndDate > GETDATE();
+
+END

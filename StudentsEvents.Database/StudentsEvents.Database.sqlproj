@@ -86,5 +86,14 @@
     <Build Include="dbo\Stored Procedures\spEvent_GetById.sql" />
     <Build Include="dbo\Stored Procedures\spTag_GetById.sql" />
     <Build Include="dbo\Stored Procedures\spStudentGovernment_GetById.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Views\vwEvent_GetPublished.sql" />
+    <Build Include="dbo\Views\vwEvent_GetUnfinished.sql" />
+    <Build Include="dbo\Tables\EventTags.sql" />
+    <Build Include="dbo\Views\vwEventTags.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_GetByEventId.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_GetByTagId.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetByCity.sql" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
-CREATE VIEW [dbo].[vwEvent_Get.sql]
-  AS SELECT e.Id, e.Name, e.ShortDescription,
+CREATE VIEW [dbo].[vwEvent_GetUnpublished]
+  AS SELECT TOP (100) e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,
   e.Language, e.Tags, e.Upvotes,
@@ -9,4 +9,5 @@ CREATE VIEW [dbo].[vwEvent_Get.sql]
   e.StudentGovernmentId, e.Published, e.OwnerID, e.Organization,
   e.LastModified
   FROM [dbo].[Event] as e 
+  WHERE [Published] = 1
   ORDER BY e.StartDate ASC
