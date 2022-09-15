@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[Event]
 
   -- LOCATION FIELDS
   [Online] BIT, -- if true, the rest of the location fields are ignored
+  [Location] NVARCHAR(128) DEFAULT 'N/A',
   [Latitude] FLOAT DEFAULT 0,
   [Longitude] FLOAT DEFAULT 0,
   [City] NVARCHAR(128) DEFAULT 'N/A',

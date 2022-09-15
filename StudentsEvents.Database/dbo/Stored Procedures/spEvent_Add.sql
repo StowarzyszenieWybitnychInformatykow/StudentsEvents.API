@@ -16,6 +16,7 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
   @Tickets BIT = 0,
 
   @Online BIT = 0,
+  @Location NVARCHAR(128) = 'N/A',
   @Latitude FLOAT = 0,
   @Longitude FLOAT = 0,
   @City NVARCHAR(128) = 'N/A',
@@ -42,7 +43,7 @@ BEGIN
     [Facebook], [Website],
     [Language], [Tags], [Upvotes],
     [Registration], [Tickets],
-    [Online], [Latitude], [Longitude], [City], [Region],
+    [Online], [Location], [Latitude], [Longitude], [City], [Region],
     [StartDate], [EndDate],
     [StudentGovernmentId], [Published], [OwnerID], [Organization]
   )
@@ -52,7 +53,7 @@ BEGIN
     @Facebook, @Website,
     @Language, @Tags, @Upvotes,
     @Registration, @Tickets,
-    @Online, @Latitude, @Longitude, @City, @Region,
+    @Online, @Location, @Latitude, @Longitude, @City, @Region,
     @StartDate, @EndDate,
     @StudentGovernmentId, @Published, @OwnerID, @Organization
   )

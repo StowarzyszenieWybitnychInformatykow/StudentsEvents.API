@@ -1,11 +1,14 @@
-CREATE PROCEDURE [dbo].[spEvent_GetById]
-  @Id INT
+CREATE PROCEDURE [dbo].[spEvent_GetPage]
+  @page INT = 0,
+  @pageSize INT = 10
+
 AS
 
 BEGIN
   SET NOCOUNT ON;
 
-  SELECT e.Id, e.Name, e.ShortDescription,
+  SELECT
+  e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,
   e.Language, e.Tags, e.Upvotes,
@@ -15,6 +18,10 @@ BEGIN
   e.StudentGovernmentId, e.Published, e.OwnerID, e.Organization,
   e.LastModified
   FROM [dbo].[Event] e
-  WHERE e.Id = @Id;
+  WHERE e.Published = 1
+  and e.EndDate > GETDATE()
+  ORDER BY e.StartDate
+  OFFSET @page * @pageSize ROWS
+  FETCH NEXT @pageSize ROWS ONLY;
 
 END

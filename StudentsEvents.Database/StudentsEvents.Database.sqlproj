@@ -94,6 +94,6 @@
     <Build Include="dbo\Stored Procedures\spEventTag_Add.sql" />
     <Build Include="dbo\Stored Procedures\spEventTag_GetByEventId.sql" />
     <Build Include="dbo\Stored Procedures\spEventTag_GetByTagId.sql" />
-    <Build Include="dbo\Stored Procedures\spEvent_GetByCity.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetPage.sql" />
   </ItemGroup>
 </Project>
