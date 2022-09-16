@@ -1,4 +1,4 @@
-CREATE VIEW [dbo].[vwEvent_GetUnpublished]
+CREATE VIEW [dbo].[vwEvent_GetUnfinished]
   AS SELECT TOP (100) e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,

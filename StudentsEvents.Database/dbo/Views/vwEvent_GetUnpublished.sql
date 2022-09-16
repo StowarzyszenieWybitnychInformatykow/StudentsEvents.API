@@ -1,6 +1,6 @@
 CREATE VIEW [dbo].[vwEvent_GetUnpublished]
   AS SELECT TOP (100) e.Id, e.Name, e.ShortDescription,
-  e.Thumbnail, e.Background,
+  [e].[Thumbnail], e.Background,
   e.Facebook, e.Website,
   e.Language, e.Tags, e.Upvotes,
   e.Registration, e.Tickets,

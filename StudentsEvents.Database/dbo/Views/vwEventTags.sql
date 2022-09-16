@@ -1,5 +1,4 @@
-CREATE VIEW [dbo].[EventTags]
+CREATE VIEW [dbo].[vwEventTags]
   AS SELECT et.EventID, et.TagID
-  FROM [dbo].[EventTag] as et
-  ORDER BY et.EventID ASC
+  FROM [dbo].[EventTags] as et
 

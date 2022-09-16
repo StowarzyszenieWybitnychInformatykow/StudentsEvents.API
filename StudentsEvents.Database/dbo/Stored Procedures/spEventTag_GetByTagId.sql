@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[spEventTag_GetByEventId]
+CREATE PROCEDURE [dbo].[spEventTag_GetByTagId]
   @TagId int
 AS
 BEGIN

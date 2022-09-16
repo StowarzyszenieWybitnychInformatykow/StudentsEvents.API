@@ -1,4 +1,4 @@
-CREATE VIEW [dbo].[vwEvent_Get.sql]
+CREATE VIEW [dbo].[vwEvent_GetAll]
   AS SELECT e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,
@@ -9,4 +9,4 @@ CREATE VIEW [dbo].[vwEvent_Get.sql]
   e.StudentGovernmentId, e.Published, e.OwnerID, e.Organization,
   e.LastModified
   FROM [dbo].[Event] as e 
-  ORDER BY e.StartDate ASC
+  --ORDER BY e.StartDate ASC
