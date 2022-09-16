@@ -4,7 +4,7 @@ namespace StudentsEvents.API.Services
 {
     public interface IEventDataManaging
     {
-        Task CreateAsync(EventModel data);
+        Task CreateAsync(EventAddModel data);
         Task DeleteAsync(Guid id);
         Task<PagedList<EventModel>> GetAllAsync(PagingModel paging);
         Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging);

@@ -91,7 +91,7 @@ namespace StudentsEvents.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody] EventModel data)
+        public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
             await _eventData.CreateAsync(data);
             return Ok();

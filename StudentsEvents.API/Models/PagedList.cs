@@ -22,7 +22,7 @@ namespace StudentsEvents.API.Models
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>( mapper.Map<List<T>>(items), count, pageNumber, pageSize);
+            return new PagedList<T>(mapper.Map<List<T>>(items.AsEnumerable()), count, pageNumber, pageSize);
         }
     }
 }

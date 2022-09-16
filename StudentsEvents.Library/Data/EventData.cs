@@ -36,7 +36,7 @@ namespace StudentsEvents.Library.Data
         }
         public async Task<IQueryable<Event>> GetUnfinishedEventsAsync()
         {
-            return _context.Events.Where(x => x.IsDeleted == false && x.EndDate.UtcDateTime > DateTime.UtcNow)
+            return _context.Events.Where(x => x.IsDeleted == false && x.EndDate > DateTimeOffset.UtcNow)
                 .Include("Tags").OrderBy(x => x.StartDate);
         }
         public async Task<Event> GetEventByIdAsync(Guid id)
@@ -46,7 +46,6 @@ namespace StudentsEvents.Library.Data
         }
         public async Task CreateEventAsync(EventDatabaseModel model)
         {
-            model.Id = Guid.NewGuid();
             await _data.SaveDataAsync("[dbo].[spEvent_Add]", model);
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
         }

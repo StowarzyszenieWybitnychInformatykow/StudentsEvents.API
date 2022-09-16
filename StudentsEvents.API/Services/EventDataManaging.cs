@@ -10,7 +10,6 @@ namespace StudentsEvents.API.Services
     {
         private readonly IMapper _mapper; 
         private readonly IEventData _eventData;
-
         public EventDataManaging(IMapper mapper, IEventData eventData)
         {
             _mapper = mapper;
@@ -18,7 +17,6 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging)
         {
-            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetEventsAsync()).AsEnumerable());
 
             return PagedList<EventModel>.ToPagedList(_mapper ,await _eventData.GetEventsAsync(),
                         paging.PageNumber,
@@ -26,24 +24,18 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging)
         {
-            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetPublishedEventsAsync()).AsEnumerable());
-
             return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetPublishedEventsAsync(),
                         paging.PageNumber,
                         paging.PageSize);
         }
         public async Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging)
         {
-            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetUnfinishedEventsAsync()).AsEnumerable());
-
             return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnfinishedEventsAsync(),
                         paging.PageNumber,
                         paging.PageSize);
         }
         public async Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging)
         {
-            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetUnpublishedEventsAsync()).AsEnumerable());
-
             return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnpublishedEventsAsync(),
                         paging.PageNumber,
                         paging.PageSize);
@@ -54,9 +46,36 @@ namespace StudentsEvents.API.Services
             return _mapper.Map<EventModel>(await _eventData.GetEventByIdAsync(id));
         }
 
-        public async Task CreateAsync(EventModel data)
+        public async Task CreateAsync(EventAddModel data)
         {
-            var eventToAdd = _mapper.Map<EventDatabaseModel>(data);
+            var model = new EventModel
+            {
+                Id = Guid.NewGuid(),
+                Name = data.Name,
+                ShortDescription = data.ShortDescription,
+                Thumbnail = data.Thumbnail,
+                Background = data.Background,
+                Facebook = data.Facebook,
+                Website = data.Website,
+                Language = data.Language,
+                Upvotes = 0,
+                Registration = data.Registration,
+                Tickets = data.Tickets,
+                Online = data.Online,
+                Location = data.Location,
+                Latitude = data.Latitude,
+                Longitude = data.Longitude,
+                City = data.City,
+                Tags = data.Tags,
+                StartDate = data.StartDate,
+                EndDate = data.EndDate,
+                StudentGovernmentId = 0,
+                Published = false,
+                OwnerID = 0,
+                Organization = "",
+                LastModified = DateTimeOffset.Now
+            };
+            var eventToAdd = _mapper.Map<EventDatabaseModel>(model);
             await _eventData.CreateEventAsync(eventToAdd);
         }
 
