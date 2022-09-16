@@ -7,7 +7,7 @@ using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DbAccess;
-using StudentsEvents.Library.SampleData;
+using StudentsEvents.Library.DBEntityModels;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -31,6 +31,9 @@ builder.Services
         };
     });
 
+builder.Services.AddDbContext<StudentsEventsDataDbContext>(options =>
+                        options.UseSqlServer(configuration.GetConnectionString("StudentsEventsDataDb")));
+
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -38,6 +41,10 @@ builder.Services.AddAutoMapper(config =>
     config.CreateMap<EventModel, EventDatabaseModel>();
     config.CreateMap<TagDatabaseModel, TagModel>();
     config.CreateMap<TagModel, TagDatabaseModel>();
+    config.CreateMap<Event, EventDatabaseModel>();
+    config.CreateMap<Tag, TagDatabaseModel>();
+    config.CreateMap<Event, EventModel>();
+    config.CreateMap<Tag, TagModel>();
 });
 
 builder.Services.AddControllers();
@@ -72,13 +79,14 @@ builder.Services.AddSwaggerGen(c => {
 
 //Data
 //TODO: Change Singleton to Transient
-builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddSingleton<IEventData, SampleEventData>();
-builder.Services.AddSingleton<ITagData, SampleTagData>();
+builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddScoped<IEventData, EventData>();
+builder.Services.AddScoped<ITagData, TagData>();
+builder.Services.AddScoped<ITagEventData, TagEventData>();
 
 //Services
-builder.Services.AddSingleton<IEventDataManaging, EventDataManaging>();
-builder.Services.AddSingleton<ITagDataManaging, TagDataManaging>();
+builder.Services.AddScoped<IEventDataManaging, EventDataManaging>();
+builder.Services.AddScoped<ITagDataManaging, TagDataManaging>();
 
 var app = builder.Build();
 
