@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Event]
 (
-  [Id] INT NOT NULL PRIMARY KEY IDENTITY,
+  [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
 
   -- INFO FIELDS
   [Name] NVARCHAR(128) NOT NULL,
@@ -13,7 +13,6 @@ CREATE TABLE [dbo].[Event]
   [Website] NVARCHAR(256) DEFAULT 'N/A',
   
   [Language] NVARCHAR(128) NOT NULL DEFAULT 'N/A',
-  [Tags] NVARCHAR(MAX) NOT NULL,
   [Upvotes] INT NOT NULL DEFAULT 0,
 
   [Registration] BIT NOT NULL DEFAULT 0,
@@ -28,16 +27,17 @@ CREATE TABLE [dbo].[Event]
   [Region] NVARCHAR(128) DEFAULT 'N/A',
   
   -- DATE FIELDS
-  [StartDate] DATETIME2 NOT NULL,
-  [EndDate] DATETIME2 NOT NULL,
+  [StartDate] DATETIMEOFFSET NOT NULL,
+  [EndDate] DATETIMEOFFSET NOT NULL,
 
   -- ORGANIZER FIELDS
-  [StudentGovernmentId] INT FOREIGN KEY REFERENCES [dbo].[StudentGovernment](Id) NOT NULL, 
+  [StudentGovernmentId] INT FOREIGN KEY REFERENCES [dbo].[StudentGovernment](Id) NULL, 
   [Published] BIT NOT NULL DEFAULT 0, -- if true, the event is visible to the public
-  [OwnerID] INT FOREIGN KEY REFERENCES [dbo].[User](Id) NOT NULL,
+  [OwnerID] int FOREIGN KEY REFERENCES [dbo].[User](Id) NULL,
   [Organization] NVARCHAR(128) NOT NULL DEFAULT 'N/A',
 
-  [LastModified] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  [LastModified] DATETIMEOFFSET NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    [IsDeleted] BIT NOT NULL DEFAULT 0,
 )
 
 
