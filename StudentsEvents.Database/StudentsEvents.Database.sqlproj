@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,8 +52,8 @@
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
-  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
-  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="dbo" />
@@ -63,5 +63,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="StudentsEvents.Database.publish.xml" />
+  </ItemGroup>
+  <Import Condition="'$(NetCoreBuild)' == 'true'" Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <PackageReference Condition="'$(NetCoreBuild)' == 'true'" Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <Target Name="BeforeBuild">
+    <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
+  </Target>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Event.sql" />
+    <Build Include="dbo\Tables\StudentGovernment.sql" />
+    <Build Include="dbo\Tables\Tag.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetUnpublishedByGovernmentId.sql" />
+    <Build Include="dbo\Views\vwEvent_GetAll.sql" />
+    <Build Include="dbo\Views\vwEvent_GetUnpublished.sql" />
+    <Build Include="dbo\Views\vwStudentGovernment_GetAll.sql" />
+    <Build Include="dbo\Views\vwTag_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spTag_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spStudentGovernment_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spTag_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spStudentGovernment_GetById.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Views\vwEvent_GetPublished.sql" />
+    <Build Include="dbo\Views\vwEvent_GetUnfinished.sql" />
+    <Build Include="dbo\Tables\EventTags.sql" />
+    <Build Include="dbo\Views\vwEventTags.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_Add.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_GetByEventId.sql" />
+    <Build Include="dbo\Stored Procedures\spEventTag_GetByTagId.sql" />
+    <Build Include="dbo\Stored Procedures\spEvent_GetPage.sql" />
   </ItemGroup>
 </Project>
