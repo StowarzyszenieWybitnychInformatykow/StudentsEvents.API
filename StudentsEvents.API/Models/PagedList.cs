@@ -1,4 +1,6 @@
-﻿namespace StudentsEvents.API.Models
+﻿using AutoMapper;
+
+namespace StudentsEvents.API.Models
 {
     public class PagedList<T> : List<T>
     {
@@ -16,11 +18,11 @@
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             AddRange(items);
         }
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> ToPagedList<U>(IMapper mapper,IQueryable<U> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            return new PagedList<T>( mapper.Map<List<T>>(items), count, pageNumber, pageSize);
         }
     }
 }

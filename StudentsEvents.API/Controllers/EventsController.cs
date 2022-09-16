@@ -17,8 +17,8 @@ namespace StudentsEvents.API.Controllers
             _eventData = eventData;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PagingModel paging)
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll([FromQuery] PagingModel paging)
         {
             var owners = await _eventData.GetAllAsync(paging);
             var metadata = new
@@ -33,8 +33,30 @@ namespace StudentsEvents.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
+        [HttpGet("GetUnfinished")]
+        public async Task<IActionResult> GetUnfinished([FromQuery] PagingModel paging)
+        {
+            var owners = await _eventData.GetAllAsync(paging);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
+        }
+        [HttpGet("GetUnPublished")]
+        [Authorize]
+        public async Task<IActionResult> GetUnpublished([FromQuery] PagingModel paging)
+        {
+            throw new NotImplementedException();
+        }
 
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _eventData.GetByIdAsync(id));

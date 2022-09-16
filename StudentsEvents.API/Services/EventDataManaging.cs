@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
+using StudentsEvents.Library.DBEntityModels;
+using System.Collections.Generic;
 
 namespace StudentsEvents.API.Services
 {
@@ -16,9 +18,33 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging)
         {
-            var data = _mapper.Map<IEnumerable<EventModel>>(await _eventData.GetEventsAsync());
+            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetEventsAsync()).AsEnumerable());
 
-            return PagedList<EventModel>.ToPagedList(data.OrderBy(x => x.StartDate),
+            return PagedList<EventModel>.ToPagedList(_mapper ,await _eventData.GetEventsAsync(),
+                        paging.PageNumber,
+                        paging.PageSize);
+        }
+        public async Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging)
+        {
+            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetPublishedEventsAsync()).AsEnumerable());
+
+            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetPublishedEventsAsync(),
+                        paging.PageNumber,
+                        paging.PageSize);
+        }
+        public async Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging)
+        {
+            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetUnfinishedEventsAsync()).AsEnumerable());
+
+            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnfinishedEventsAsync(),
+                        paging.PageNumber,
+                        paging.PageSize);
+        }
+        public async Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging)
+        {
+            var data = _mapper.Map<IEnumerable<EventModel>>((await _eventData.GetUnpublishedEventsAsync()).AsEnumerable());
+
+            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnpublishedEventsAsync(),
                         paging.PageNumber,
                         paging.PageSize);
         }
@@ -41,8 +67,8 @@ namespace StudentsEvents.API.Services
         }
         public async Task DeleteAsync(Guid id)
         {
-            var model = GetByIdAsync(id);
-            await _eventData.DeleteEventAsync(_mapper.Map<EventDatabaseModel>(model));
+            //var model = GetByIdAsync(id);
+            await _eventData.DeleteEventAsync(id);
         }
     }
 }
