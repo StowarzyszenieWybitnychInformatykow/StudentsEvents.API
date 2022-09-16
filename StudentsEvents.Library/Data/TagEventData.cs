@@ -1,5 +1,5 @@
-﻿using StudentsEvents.API.Models;
-using StudentsEvents.Library.DbAccess;
+﻿using StudentsEvents.Library.DbAccess;
+using StudentsEvents.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +19,10 @@ namespace StudentsEvents.Library.Data
         }
         public async Task AddTagsToEvent(IEnumerable<TagDatabaseModel> tags, Guid EventId)
         {
-            List<Task> tasks = new List<Task>();
             foreach (var item in tags)
             {
-                tasks.Add(_data.SaveDataAsync("[dbo].[spEventTag_Add]", new { eventId = EventId, tagId = item.Id, NewEventTagId = 0 }));
+                await _data.SaveDataAsync("[dbo].[spEventTag_Add]", new { eventId = EventId, tagId = item.Id, NewEventTagId = 0 });
             }
-            await Task.WhenAll(tasks);
         }
         public async Task<IEnumerable<TagDatabaseModel>> GetTagsByEventIdAsync(Guid id)
         {

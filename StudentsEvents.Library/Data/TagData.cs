@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using StudentsEvents.API.Models;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
+using StudentsEvents.Library.Models;
 
 namespace StudentsEvents.Library.Data
 {

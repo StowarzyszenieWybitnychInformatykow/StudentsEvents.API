@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using StudentsEvents.API.Models;
+using StudentsEvents.Library.Models;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
+using System.Xml.Linq;
 
 namespace StudentsEvents.Library.Data
 {
@@ -46,7 +47,33 @@ namespace StudentsEvents.Library.Data
         }
         public async Task CreateEventAsync(EventDatabaseModel model)
         {
-            await _data.SaveDataAsync("[dbo].[spEvent_Add]", model);
+            await _data.SaveDataAsync("[dbo].[spEvent_Add]", new 
+            {
+                ID = model.Id,
+                Name = model.Name,
+                ShortDescription = model.ShortDescription,
+                Thumbnail = model.Thumbnail,
+                Background = model.Background,
+                Facebook = model.Facebook,
+                Website = model.Website,
+                Language = model.Language,
+                Upvotes = model.Upvotes,
+                Registration = model.Registration,
+                Tickets = model.Tickets,
+                Online = model.Online,
+                Location = model.Location,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                City = model.City,
+                //Region = model.Region
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                //StudentGovernmentId = model.StudentGovernmentId,
+                Published = model.Published,
+                //OwnerID = model.OwnerID,
+                Organization = model.Organization,
+                NewEventId = 0
+            });
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
         }
         public async Task UpdateEventAsync(EventDatabaseModel model)

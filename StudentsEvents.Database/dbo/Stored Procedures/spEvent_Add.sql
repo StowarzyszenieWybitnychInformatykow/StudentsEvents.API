@@ -25,9 +25,9 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
   @StartDate DATETIMEOFFSET,
   @EndDate DATETIMEOFFSET,
 
-  @StudentGovernmentId INT,
+  @StudentGovernmentId INT = Null,
   @Published BIT,
-  @OwnerID INT,
+  @OwnerID INT = Null,
   @Organization NVARCHAR(128),
 
   @NewEventId INT OUTPUT

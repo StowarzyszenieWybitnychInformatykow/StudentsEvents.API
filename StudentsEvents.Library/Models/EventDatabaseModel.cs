@@ -1,4 +1,6 @@
-﻿namespace StudentsEvents.API.Models
+﻿using StudentsEvents.Library.Models;
+
+namespace StudentsEvents.Library.Models
 {
     public class EventDatabaseModel
     {

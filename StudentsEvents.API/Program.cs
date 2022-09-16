@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StudentsEvents.API.Models;
-using StudentsEvents.API.Services;
+using StudentsEvents.Library.Models;
+using StudentsEvents.Library.Services;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
+using StudentsEvents.Library.Models;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()

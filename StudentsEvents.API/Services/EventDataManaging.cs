@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using StudentsEvents.API.Models;
+using StudentsEvents.Library.Models;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DBEntityModels;
+using StudentsEvents.Library.Models;
 using System.Collections.Generic;
 
-namespace StudentsEvents.API.Services
+namespace StudentsEvents.Library.Services
 {
     public class EventDataManaging : IEventDataManaging
     {
@@ -73,7 +74,7 @@ namespace StudentsEvents.API.Services
                 Published = false,
                 OwnerID = 0,
                 Organization = "",
-                LastModified = DateTimeOffset.Now
+                LastModified = DateTimeOffset.UtcNow
             };
             var eventToAdd = _mapper.Map<EventDatabaseModel>(model);
             await _eventData.CreateEventAsync(eventToAdd);

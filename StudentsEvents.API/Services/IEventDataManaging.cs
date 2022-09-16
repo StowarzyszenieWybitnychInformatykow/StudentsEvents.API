@@ -1,6 +1,6 @@
-﻿using StudentsEvents.API.Models;
+﻿using StudentsEvents.Library.Models;
 
-namespace StudentsEvents.API.Services
+namespace StudentsEvents.Library.Services
 {
     public interface IEventDataManaging
     {

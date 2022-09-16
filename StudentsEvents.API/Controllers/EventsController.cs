@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using StudentsEvents.API.Models;
-using StudentsEvents.API.Services;
+using StudentsEvents.Library.Models;
+using StudentsEvents.Library.Services;
 
-namespace StudentsEvents.API.Controllers
+namespace StudentsEvents.Library.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

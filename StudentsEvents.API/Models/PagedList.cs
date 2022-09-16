@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace StudentsEvents.API.Models
+namespace StudentsEvents.Library.Models
 {
     public class PagedList<T> : List<T>
     {

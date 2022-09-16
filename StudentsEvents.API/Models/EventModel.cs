@@ -1,4 +1,4 @@
-﻿namespace StudentsEvents.API.Models
+﻿namespace StudentsEvents.Library.Models
 {
     public class EventModel
     {

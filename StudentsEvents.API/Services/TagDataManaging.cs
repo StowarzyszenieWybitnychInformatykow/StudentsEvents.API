@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using StudentsEvents.API.Models;
+using StudentsEvents.Library.Models;
 using StudentsEvents.Library.Data;
+using StudentsEvents.Library.Models;
 
-namespace StudentsEvents.API.Services
+namespace StudentsEvents.Library.Services
 {
     public class TagDataManaging : ITagDataManaging
     {

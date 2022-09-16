@@ -1,4 +1,4 @@
-﻿using StudentsEvents.API.Models;
+﻿using StudentsEvents.Library.Models;
 using StudentsEvents.Library.DBEntityModels;
 
 namespace StudentsEvents.Library.Data
