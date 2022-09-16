@@ -33,10 +33,10 @@ namespace StudentsEvents.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
-        [HttpGet("GetUnfinished")]
-        public async Task<IActionResult> GetUnfinished([FromQuery] PagingModel paging)
+        [HttpGet("GetPublished")]
+        public async Task<IActionResult> GetPublished([FromQuery] PagingModel paging)
         {
-            var owners = await _eventData.GetAllAsync(paging);
+            var owners = await _eventData.GetPublishedAsync(paging);
             var metadata = new
             {
                 owners.TotalCount,
@@ -49,11 +49,38 @@ namespace StudentsEvents.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
-        [HttpGet("GetUnPublished")]
+        [HttpGet("GetUnfinished")]
+        public async Task<IActionResult> GetUnfinished([FromQuery] PagingModel paging)
+        {
+            var owners = await _eventData.GetUnfinishedAsync(paging);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
+        }
+        [HttpGet("GetUnpublished")]
         [Authorize]
         public async Task<IActionResult> GetUnpublished([FromQuery] PagingModel paging)
         {
-            throw new NotImplementedException();
+            var owners = await _eventData.GetUnpublishedAsync(paging);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
         }
 
         [HttpGet("getbyid/{id}")]
