@@ -1,23 +1,29 @@
-﻿using StudentsEvents.API.Models;
+﻿using AutoMapper;
+using StudentsEvents.API.Models;
 using StudentsEvents.Library.DbAccess;
+using StudentsEvents.Library.DBEntityModels;
 
 namespace StudentsEvents.Library.Data
 {
     public class TagData : ITagData
     {
         private readonly ISqlDataAccess _data;
+        private readonly StudentsEventsDataDbContext _context;
+        private readonly IMapper _mapper;
 
-        public TagData(ISqlDataAccess data)
+        public TagData(ISqlDataAccess data, StudentsEventsDataDbContext context, IMapper mapper)
         {
             _data = data;
+            _context = context;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<TagDatabaseModel>> GetTagsAsync()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<TagDatabaseModel>>(_context.Tags);
         }
         public async Task CreateTagAsync(TagDatabaseModel model)
         {
-            throw new NotImplementedException();
+            await _data.SaveDataAsync("[dbo].[spTag_Add]", new { Name = model.Name, NewIdOutputParam = 0 });
         }
         public async Task UpdateTagAsync(TagDatabaseModel model)
         {
@@ -29,7 +35,7 @@ namespace StudentsEvents.Library.Data
         }
         public async Task<TagDatabaseModel> GetTagByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return (await _data.LoadDataAsync<TagDatabaseModel, dynamic>("[dbo].[spTag_GetById]", new { Id = id })).Single();
         }
     }
 }

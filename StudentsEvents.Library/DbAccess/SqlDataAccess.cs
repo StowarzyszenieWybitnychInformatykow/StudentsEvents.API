@@ -21,6 +21,13 @@ namespace StudentsEvents.Library.DbAccess
             return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
+        public async Task<IEnumerable<T>> LoadDataFromViewAsync<T>(string view, string connectionId = "StudentsEventsDataDb")
+        {
+            using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
+
+            return await connection.QueryAsync<T>($"select * from {view}", new { });
+        }
+
         public async Task<IEnumerable<T>> LoadMultipleMapDataAsync<T, U, O>(string storedProcedure, U parameters, Func<T, O, T> func, string connectionId = "StudentsEventsDataDb")
         {
             using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
