@@ -1,5 +1,5 @@
 CREATE PROCEDURE [dbo].[spEventTag_Add]
-  @eventId INT,
+  @eventId UNIQUEIDENTIFIER,
   @tagId INT,
   @NewEventTagId INT OUTPUT
 

@@ -2,7 +2,7 @@ CREATE VIEW [dbo].[vwEvent_GetUnfinished]
   AS SELECT TOP (100) e.Id, e.Name, e.ShortDescription,
   e.Thumbnail, e.Background,
   e.Facebook, e.Website,
-  e.Language, e.Tags, e.Upvotes,
+  e.Language,
   e.Registration, e.Tickets,
   e.Online, e.Location, e.Latitude, e.Longitude, e.City, e.Region,
   e.StartDate, e.EndDate,
@@ -12,4 +12,5 @@ CREATE VIEW [dbo].[vwEvent_GetUnfinished]
   WHERE [Published] = 1
   AND
   [EndDate] > GETDATE()
+  AND e.IsDeleted = 0
   ORDER BY e.StartDate ASC

@@ -8,6 +8,7 @@ BEGIN
 
   SELECT t.Id, t.Name
   FROM [dbo].[Tag] t
-  WHERE t.Id = @Id;
+  WHERE t.Id = @Id 
+  AND t.IsDeleted = 0;
 
 END

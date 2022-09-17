@@ -1,5 +1,5 @@
 CREATE PROCEDURE [dbo].[spEventTag_GetByEventId]
-  @EventId int
+  @EventId UNIQUEIDENTIFIER 
 AS
 BEGIN
   SET NOCOUNT ON;

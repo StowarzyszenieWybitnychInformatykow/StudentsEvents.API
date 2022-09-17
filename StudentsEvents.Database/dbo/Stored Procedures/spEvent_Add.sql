@@ -1,4 +1,5 @@
 CREATE PROCEDURE [dbo].[spEvent_Add]
+  @ID UNIQUEIDENTIFIER,
   @Name NVARCHAR(128),
   @ShortDescription NVARCHAR(128),
   
@@ -9,7 +10,6 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
   @Website NVARCHAR(256) = 'N/A',
 
   @Language NVARCHAR(128) = 'N/A',
-  @Tags NVARCHAR(MAX),
   @Upvotes INT = 0,
 
   @Registration BIT = 0,
@@ -22,12 +22,12 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
   @City NVARCHAR(128) = 'N/A',
   @Region NVARCHAR(128) = 'N/A',
 
-  @StartDate DATETIME2,
-  @EndDate DATETIME2,
+  @StartDate DATETIMEOFFSET,
+  @EndDate DATETIMEOFFSET,
 
-  @StudentGovernmentId INT,
+  @StudentGovernmentId INT = Null,
   @Published BIT,
-  @OwnerID INT,
+  @OwnerID NVARCHAR(128),
   @Organization NVARCHAR(128),
 
   @NewEventId INT OUTPUT
@@ -37,21 +37,21 @@ AS
 BEGIN
   SET NOCOUNT ON;
   
-  INSERT INTO [dbo].[Event] (
+  INSERT INTO [dbo].[Event] ([Id],
     [Name], [ShortDescription],
     [Thumbnail], [Background],
     [Facebook], [Website],
-    [Language], [Tags], [Upvotes],
+    [Language], [Upvotes],
     [Registration], [Tickets],
     [Online], [Location], [Latitude], [Longitude], [City], [Region],
     [StartDate], [EndDate],
     [StudentGovernmentId], [Published], [OwnerID], [Organization]
   )
-  VALUES(
+  VALUES(@ID,
     @Name, @ShortDescription,
     @Thumbnail, @Background,
     @Facebook, @Website,
-    @Language, @Tags, @Upvotes,
+    @Language,  @Upvotes,
     @Registration, @Tickets,
     @Online, @Location, @Latitude, @Longitude, @City, @Region,
     @StartDate, @EndDate,
