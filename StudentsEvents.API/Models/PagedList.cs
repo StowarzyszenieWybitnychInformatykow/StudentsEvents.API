@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace StudentsEvents.Library.Models
+namespace StudentsEvents.API.Models
 {
     public class PagedList<T> : List<T>
     {
@@ -18,7 +18,7 @@ namespace StudentsEvents.Library.Models
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             AddRange(items);
         }
-        public static PagedList<T> ToPagedList<U>(IMapper mapper,IQueryable<U> source, int pageNumber, int pageSize)
+        public static PagedList<T> ToPagedList<U>(IMapper mapper, IQueryable<U> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();

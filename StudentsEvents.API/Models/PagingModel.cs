@@ -1,4 +1,4 @@
-﻿namespace StudentsEvents.Library.Models
+﻿namespace StudentsEvents.API.Models
 {
     public class PagingModel
     {
@@ -13,7 +13,7 @@
             }
             set
             {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+                _pageSize = value > maxPageSize ? maxPageSize : value;
             }
         }
     }

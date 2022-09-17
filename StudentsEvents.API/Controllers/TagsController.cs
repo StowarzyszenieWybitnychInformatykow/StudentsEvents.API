@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using StudentsEvents.Library.Models;
-using StudentsEvents.Library.Services;
+using StudentsEvents.API.Models;
+using StudentsEvents.API.Services;
 
-namespace StudentsEvents.Library.Controllers
+namespace StudentsEvents.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -45,13 +45,13 @@ namespace StudentsEvents.Library.Controllers
             await _tagData.CreateAsync(model);
             return Ok();
         }
-        [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> Update(TagModel model)
-        {
-            await _tagData.UpdateAsync(model);
-            return Ok();
-        }
+        //[Authorize]
+        //[HttpPut]
+        //public async Task<IActionResult> Update(TagModel model)
+        //{
+        //    await _tagData.UpdateAsync(model);
+        //    return Ok();
+        //}
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(TagModel model)

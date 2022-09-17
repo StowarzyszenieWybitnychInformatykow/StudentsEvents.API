@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using StudentsEvents.Library.Models;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
+using StudentsEvents.Library.Models;
 using System.Xml.Linq;
 
 namespace StudentsEvents.Library.Data

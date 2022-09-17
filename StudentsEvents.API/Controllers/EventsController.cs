@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using StudentsEvents.Library.Models;
-using StudentsEvents.Library.Services;
+using StudentsEvents.API.Models;
+using StudentsEvents.API.Services;
 
-namespace StudentsEvents.Library.Controllers
+namespace StudentsEvents.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -88,7 +88,7 @@ namespace StudentsEvents.Library.Controllers
         [Authorize]
         public async Task<IActionResult> GetMy([FromQuery] PagingModel paging)
         {
-            var userId = this.User.Claims.Where(x => x.Type == "user_id").Single().Value;
+            var userId = User.Claims.Where(x => x.Type == "user_id").Single().Value;
             var owners = await _eventData.GetMyAsync(paging, userId);
             var metadata = new
             {
@@ -127,16 +127,16 @@ namespace StudentsEvents.Library.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
-            await _eventData.CreateAsync(data, this.User.Claims.Where(x => x.Type == "user_id").Single().Value);
+            await _eventData.CreateAsync(data, User.Claims.Where(x => x.Type == "user_id").Single().Value);
             return Ok();
         }
-        [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] EventModel modified)
-        {
-            await _eventData.UpdateAsync(modified);
-            return Ok();
-        }
+        //[Authorize]
+        //[HttpPut]
+        //public async Task<IActionResult> Put([FromBody] EventModel modified)
+        //{
+        //    await _eventData.UpdateAsync(modified);
+        //    return Ok();
+        //}
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)

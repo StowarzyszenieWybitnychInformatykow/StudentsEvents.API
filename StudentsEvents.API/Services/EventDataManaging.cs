@@ -1,15 +1,15 @@
-﻿using AutoMapper;
-using StudentsEvents.Library.Models;
-using StudentsEvents.Library.Data;
-using StudentsEvents.Library.DBEntityModels;
-using StudentsEvents.Library.Models;
-using System.Collections.Generic;
+﻿
 
-namespace StudentsEvents.Library.Services
+using AutoMapper;
+using StudentsEvents.API.Models;
+using StudentsEvents.Library.Data;
+using StudentsEvents.Library.Models;
+
+namespace StudentsEvents.API.Services
 {
     public class EventDataManaging : IEventDataManaging
     {
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
         private readonly IEventData _eventData;
         public EventDataManaging(IMapper mapper, IEventData eventData)
         {
@@ -19,7 +19,7 @@ namespace StudentsEvents.Library.Services
         public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging)
         {
 
-            return PagedList<EventModel>.ToPagedList(_mapper ,await _eventData.GetEventsAsync(),
+            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetEventsAsync(),
                         paging.PageNumber,
                         paging.PageSize);
         }

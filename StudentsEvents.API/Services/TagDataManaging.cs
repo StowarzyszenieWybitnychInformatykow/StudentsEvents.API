@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using StudentsEvents.Library.Models;
 using StudentsEvents.Library.Data;
+using StudentsEvents.API.Models;
 using StudentsEvents.Library.Models;
 
-namespace StudentsEvents.Library.Services
+namespace StudentsEvents.API.Services
 {
     public class TagDataManaging : ITagDataManaging
     {
@@ -20,7 +20,7 @@ namespace StudentsEvents.Library.Services
 
             var data = _mapper.Map<IEnumerable<TagModel>>(await _tagData.GetTagsAsync());
 
-            return PagedList<TagModel>.ToPagedList(_mapper ,(await _tagData.GetTagsAsync()).AsQueryable(),
+            return PagedList<TagModel>.ToPagedList(_mapper, (await _tagData.GetTagsAsync()).AsQueryable(),
                         paging.PageNumber,
                         paging.PageSize);
         }

@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StudentsEvents.Library.Models;
-using StudentsEvents.Library.Services;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
 using StudentsEvents.Library.Models;
 using System.Text;
+using StudentsEvents.API.Services;
+using StudentsEvents.API.Models;
 
 IConfiguration configuration = new ConfigurationBuilder()
                             .AddJsonFile("appsettings.json")
