@@ -24,7 +24,7 @@
         public DateTimeOffset EndDate { get; set; }
         public int StudentGovernmentId { get; set; }
         public bool Published { get; set; }
-        public int OwnerID { get; set; }
+        public string OwnerID { get; set; }
         public string Organization { get; set; }
         public DateTimeOffset LastModified { get; set; }
 

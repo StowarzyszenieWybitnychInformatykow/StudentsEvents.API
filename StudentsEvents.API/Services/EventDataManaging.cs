@@ -47,7 +47,7 @@ namespace StudentsEvents.Library.Services
             return _mapper.Map<EventModel>(await _eventData.GetEventByIdAsync(id));
         }
 
-        public async Task CreateAsync(EventAddModel data)
+        public async Task CreateAsync(EventAddModel data, string userId)
         {
             var model = new EventModel
             {
@@ -72,7 +72,7 @@ namespace StudentsEvents.Library.Services
                 EndDate = data.EndDate,
                 StudentGovernmentId = 0,
                 Published = false,
-                OwnerID = 0,
+                OwnerID = userId,
                 Organization = "",
                 LastModified = DateTimeOffset.UtcNow
             };

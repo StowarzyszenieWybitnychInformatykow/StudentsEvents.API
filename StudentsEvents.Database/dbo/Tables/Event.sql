@@ -33,7 +33,7 @@ CREATE TABLE [dbo].[Event]
   -- ORGANIZER FIELDS
   [StudentGovernmentId] INT FOREIGN KEY REFERENCES [dbo].[StudentGovernment](Id) NULL, 
   [Published] BIT NOT NULL DEFAULT 0, -- if true, the event is visible to the public
-  [OwnerID] int FOREIGN KEY REFERENCES [dbo].[User](Id) NULL,
+  [OwnerID] NVARCHAR(128) NOT NULL,
   [Organization] NVARCHAR(128) NOT NULL DEFAULT 'N/A',
 
   [LastModified] DATETIMEOFFSET NOT NULL DEFAULT CURRENT_TIMESTAMP, 

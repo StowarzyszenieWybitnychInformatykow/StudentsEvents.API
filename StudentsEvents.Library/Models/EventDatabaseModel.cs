@@ -4,7 +4,7 @@ namespace StudentsEvents.Library.Models
 {
     public class EventDatabaseModel
     {
- public Guid Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public string Thumbnail { get; set; }
@@ -26,7 +26,7 @@ namespace StudentsEvents.Library.Models
         public DateTimeOffset EndDate { get; set; }
         public int StudentGovernmentId { get; set; }
         public bool Published { get; set; }
-        public int OwnerID { get; set; }
+        public string OwnerID { get; set; }
         public string Organization { get; set; }
         public DateTimeOffset LastModified { get; set; }
 

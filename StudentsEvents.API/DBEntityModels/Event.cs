@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StudentsEvents.Library.DBEntityModels
+namespace StudentsEvents.API.DBEntityModels
 {
     public partial class Event
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace StudentsEvents.Library.DBEntityModels
+namespace StudentsEvents.API.DBEntityModels
 {
     public partial class StudentsEventsDataDbContext : DbContext
     {
@@ -27,6 +27,15 @@ namespace StudentsEvents.Library.DBEntityModels
         public virtual DbSet<VwEventTag> VwEventTags { get; set; } = null!;
         public virtual DbSet<VwStudentGovernmentGetAll> VwStudentGovernmentGetAlls { get; set; } = null!;
         public virtual DbSet<VwTagGetAll> VwTagGetAlls { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=tcp:studentseventsdb.database.windows.net,1433;Initial Catalog=StudentsEventsDataDb;User Id=studentseventsadmin@studentseventsdb;Password=studentseventspassword997!");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

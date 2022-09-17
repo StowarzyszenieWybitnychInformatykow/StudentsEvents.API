@@ -70,7 +70,7 @@ namespace StudentsEvents.Library.Data
                 EndDate = model.EndDate,
                 //StudentGovernmentId = model.StudentGovernmentId,
                 Published = model.Published,
-                //OwnerID = model.OwnerID,
+                OwnerID = model.OwnerID,
                 Organization = model.Organization,
                 NewEventId = 0
             });

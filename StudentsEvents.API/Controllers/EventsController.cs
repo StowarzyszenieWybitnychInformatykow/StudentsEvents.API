@@ -11,10 +11,12 @@ namespace StudentsEvents.Library.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventDataManaging _eventData;
+        private readonly ILogger<EventsController> _logger;
 
-        public EventsController(IEventDataManaging eventData)
+        public EventsController(IEventDataManaging eventData, ILogger<EventsController> logger)
         {
             _eventData = eventData;
+            _logger = logger;
         }
 
         [HttpGet("GetAll")]
@@ -93,7 +95,7 @@ namespace StudentsEvents.Library.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
-            await _eventData.CreateAsync(data);
+            await _eventData.CreateAsync(data, this.User.Claims.Where(x => x.Type == "user_id").Single().Value);
             return Ok();
         }
         [Authorize]

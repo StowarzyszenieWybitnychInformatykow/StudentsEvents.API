@@ -27,7 +27,7 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
 
   @StudentGovernmentId INT = Null,
   @Published BIT,
-  @OwnerID INT = Null,
+  @OwnerID NVARCHAR(128),
   @Organization NVARCHAR(128),
 
   @NewEventId INT OUTPUT
