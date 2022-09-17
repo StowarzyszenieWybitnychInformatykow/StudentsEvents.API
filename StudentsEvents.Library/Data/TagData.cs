@@ -19,7 +19,7 @@ namespace StudentsEvents.Library.Data
         }
         public async Task<IEnumerable<TagDatabaseModel>> GetTagsAsync()
         {
-            return _mapper.Map<IEnumerable<TagDatabaseModel>>(_context.Tags);
+            return _mapper.Map<IEnumerable<TagDatabaseModel>>(_context.Tags.Where(x => x.IsDeleted == false));
         }
         public async Task CreateTagAsync(TagDatabaseModel model)
         {
@@ -31,7 +31,8 @@ namespace StudentsEvents.Library.Data
         }
         public async Task DeleteTagAsync(TagDatabaseModel model)
         {
-            throw new NotImplementedException();
+            _context.Tags.Where(x => x.IsDeleted == false && x.Id == model.Id).Single().IsDeleted = true;
+            await _context.SaveChangesAsync();
         }
         public async Task<TagDatabaseModel> GetTagByIdAsync(int id)
         {

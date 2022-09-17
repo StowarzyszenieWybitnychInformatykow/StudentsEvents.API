@@ -12,6 +12,7 @@ namespace StudentsEvents.Library.DBEntityModels
 
         public int Id { get; set; }
         public string Name { get; set; } = null!;
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
     }
