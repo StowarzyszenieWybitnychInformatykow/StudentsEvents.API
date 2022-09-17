@@ -10,6 +10,9 @@ namespace StudentsEvents.Library.Services
         Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging);
         Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging);
         Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging);
+        Task PublishEventAsync(EventModel data);
+        Task UnpublishEventAsync(EventModel data);
+        Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, string Id);
         Task<EventModel> GetByIdAsync(Guid id);
         Task UpdateAsync(EventModel modified);
     }

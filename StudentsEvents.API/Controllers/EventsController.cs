@@ -84,6 +84,38 @@ namespace StudentsEvents.Library.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
+        [HttpGet("GetMy")]
+        [Authorize]
+        public async Task<IActionResult> GetMy([FromQuery] PagingModel paging)
+        {
+            var userId = this.User.Claims.Where(x => x.Type == "user_id").Single().Value;
+            var owners = await _eventData.GetMyAsync(paging, userId);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
+        }
+        [HttpPost("PublishEvent")]
+        [Authorize]
+        public async Task<IActionResult> PublishEvent([FromBody] EventModel data)
+        {
+            await _eventData.PublishEventAsync(data);
+            return Ok();
+        }
+        [HttpPost("UnpublishEvent")]
+        [Authorize]
+        public async Task<IActionResult> UnpublishEvent([FromBody] EventModel data)
+        {
+            await _eventData.UnpublishEventAsync(data);
+            return Ok();
+        }
 
         [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> Get(Guid id)

@@ -9,6 +9,9 @@ namespace StudentsEvents.Library.Data
         Task<IQueryable<Event>> GetPublishedEventsAsync();
         Task<IQueryable<Event>> GetUnpublishedEventsAsync();
         Task<IQueryable<Event>> GetUnfinishedEventsAsync();
+        Task<IQueryable<Event>> GetMyEventsAsync(string Id);
+        Task PublishEventAsync(EventDatabaseModel model);
+        Task UnpublishEventAsync(EventDatabaseModel model);
         Task<Event> GetEventByIdAsync(Guid id);
         Task CreateEventAsync(EventDatabaseModel model);
         Task DeleteEventAsync(Guid id);

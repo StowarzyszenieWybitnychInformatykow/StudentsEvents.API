@@ -41,12 +41,27 @@ namespace StudentsEvents.Library.Services
                         paging.PageNumber,
                         paging.PageSize);
         }
+        public async Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, string Id)
+        {
+            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetMyEventsAsync(Id),
+                        paging.PageNumber,
+                        paging.PageSize);
+        }
 
         public async Task<EventModel> GetByIdAsync(Guid id)
         {
             return _mapper.Map<EventModel>(await _eventData.GetEventByIdAsync(id));
         }
-
+        public async Task PublishEventAsync(EventModel data)
+        {
+            var model = _mapper.Map<EventDatabaseModel>(data);
+            await _eventData.PublishEventAsync(model);
+        }
+        public async Task UnpublishEventAsync(EventModel data)
+        {
+            var model = _mapper.Map<EventDatabaseModel>(data);
+            await _eventData.UnpublishEventAsync(model);
+        }
         public async Task CreateAsync(EventAddModel data, string userId)
         {
             var model = new EventModel

@@ -40,6 +40,23 @@ namespace StudentsEvents.Library.Data
             return _context.Events.Where(x => x.IsDeleted == false && x.EndDate > DateTimeOffset.UtcNow)
                 .Include("Tags").OrderBy(x => x.StartDate);
         }
+        public async Task<IQueryable<Event>> GetMyEventsAsync(string Id)
+        {
+            return _context.Events.Where(x => x.IsDeleted == false && x.OwnerId == Id)
+                .Include("Tags").OrderBy(x => x.StartDate);
+        }
+        public async Task PublishEventAsync(EventDatabaseModel model)
+        {
+            var data = await GetEventByIdAsync(model.Id);
+            data.Published = true;
+            await _context.SaveChangesAsync();
+        }
+        public async Task UnpublishEventAsync(EventDatabaseModel model)
+        {
+            var data = await GetEventByIdAsync(model.Id);
+            data.Published = false;
+            await _context.SaveChangesAsync();
+        }
         public async Task<Event> GetEventByIdAsync(Guid id)
         {
             var data = _context.Events.Where(x => x.IsDeleted == false && x.Id == id).Include("Tags").Single();
