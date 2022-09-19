@@ -89,6 +89,7 @@ builder.Services.AddScoped<ITagEventData, TagEventData>();
 //Services
 builder.Services.AddScoped<IEventDataManaging, EventDataManaging>();
 builder.Services.AddScoped<ITagDataManaging, TagDataManaging>();
+builder.Services.AddScoped<IFilterService, FilterService>();
 
 var app = builder.Build();
 
