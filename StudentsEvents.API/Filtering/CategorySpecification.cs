@@ -1,13 +1,12 @@
-﻿using StudentsEvents.API.Models;
-using StudentsEvents.Library.DBEntityModels;
+﻿using StudentsEvents.Library.DBEntityModels;
 
 namespace StudentsEvents.API.Filtering
 {
     public class CategorySpecification : ISpecification<Event>
     {
-        private readonly IEnumerable<Tag> _tags;
+        private readonly IEnumerable<int> _tags;
 
-        public CategorySpecification(IEnumerable<Tag> tags)
+        public CategorySpecification(IEnumerable<int> tags)
         {
             _tags = tags;
         }
@@ -15,7 +14,7 @@ namespace StudentsEvents.API.Filtering
         {
             foreach (var item in _tags)
             {
-                if (entity.Tags.Contains(item))
+                if (entity.Tags.Select(x => x.Id).Contains(item))
                 {
                     return true;
                 }
