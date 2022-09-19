@@ -15,5 +15,6 @@ namespace StudentsEvents.API.Services
         Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, FilterModel filter, string Id);
         Task<EventModel> GetByIdAsync(Guid id);
         Task UpdateAsync(EventModel modified);
+        Task<IEnumerable<string>> GetDistinctCitys();
     }
 }

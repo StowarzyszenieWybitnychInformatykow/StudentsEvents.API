@@ -16,5 +16,6 @@ namespace StudentsEvents.Library.Data
         Task CreateEventAsync(EventDatabaseModel model);
         Task DeleteEventAsync(Guid id);
         Task UpdateEventAsync(EventDatabaseModel model);
+        Task<IQueryable<string>> GetAllDistinctCitysAsync();
     }
 }

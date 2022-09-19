@@ -105,5 +105,10 @@ namespace StudentsEvents.API.Services
             //var model = GetByIdAsync(id);
             await _eventData.DeleteEventAsync(id);
         }
+
+        public async Task<IEnumerable<string>> GetDistinctCitys()
+        {
+            return await _eventData.GetAllDistinctCitysAsync();
+        }
     }
 }

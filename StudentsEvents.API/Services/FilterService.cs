@@ -27,8 +27,8 @@ namespace StudentsEvents.API.Services
             var specifications = new List<ISpecification<Event>>();
             if (filter?.TagsID != null)
                 specifications.Add(new CategorySpecification(filter.TagsID));
-            if (filter?.City != null)
-                specifications.Add(new CitySpecification(filter.City));
+            if (filter?.Citys != null)
+                specifications.Add(new CitysSpecification(filter.Citys));
             if (filter?.IsRegistration != null)
                 specifications.Add(new RegistrationSpecification((bool)filter.IsRegistration));
             if (filter?.Start != null || filter?.End != null)

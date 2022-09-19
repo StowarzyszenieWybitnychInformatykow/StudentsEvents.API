@@ -102,5 +102,10 @@ namespace StudentsEvents.Library.Data
             _context.Events.Where(x => x.IsDeleted == false && x.Id == id).Single().IsDeleted = true;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IQueryable<string>> GetAllDistinctCitysAsync()
+        {
+            return _context.Events.Select(x => x.City).Distinct();
+        }
     }
 }

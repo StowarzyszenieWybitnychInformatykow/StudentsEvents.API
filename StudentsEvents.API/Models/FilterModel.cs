@@ -3,7 +3,7 @@
     public class FilterModel
     {
         public int[]? TagsID { get; set; } = null;
-        public string? City { get; set; } = null;
+        public string[]? Citys { get; set; } = null;
         public bool? IsRegistration { get; set; } = null;
         public bool? IsOnline { get; set; } = null;
         public DateTimeOffset? Start { get; set; } = null;
