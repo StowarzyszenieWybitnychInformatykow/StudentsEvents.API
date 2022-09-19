@@ -13,7 +13,7 @@ namespace StudentsEvents.API.Services
         {
             _mapper = mapper;
         }
-        public IQueryable<Event> GetSpecificData(IQueryable<Event> events, FilterModel filter)
+        public IEnumerable<Event> GetSpecificData(IEnumerable<Event> events, FilterModel filter)
         {
             var specifications = GetSpecifications(filter);
             for (int i = 0; i < specifications.Count(); i++)

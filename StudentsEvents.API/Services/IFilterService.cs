@@ -5,6 +5,6 @@ namespace StudentsEvents.API.Services
 {
     public interface IFilterService
     {
-        IQueryable<Event> GetSpecificData(IQueryable<Event> events, FilterModel filter);
+        IEnumerable<Event> GetSpecificData(IEnumerable<Event> events, FilterModel filter);
     }
 }

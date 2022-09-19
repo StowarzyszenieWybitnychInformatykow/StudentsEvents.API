@@ -2,6 +2,6 @@
 {
     public interface IFilter<T>
     {
-        IQueryable<T> Filtration(IQueryable<T> entitys, ISpecification<T> spec);
+        IEnumerable<T> Filtration(IEnumerable<T> entitys, ISpecification<T> spec);
     }
 }
