@@ -52,15 +52,13 @@ namespace StudentsEvents.API.Services
         {
             return _mapper.Map<EventModel>(await _eventData.GetEventByIdAsync(id));
         }
-        public async Task PublishEventAsync(EventModel data)
+        public async Task PublishEventAsync(Guid id)
         {
-            var model = _mapper.Map<EventDatabaseModel>(data);
-            await _eventData.PublishEventAsync(model);
+            await _eventData.PublishEventAsync(id);
         }
-        public async Task UnpublishEventAsync(EventModel data)
+        public async Task UnpublishEventAsync(Guid id)
         {
-            var model = _mapper.Map<EventDatabaseModel>(data);
-            await _eventData.UnpublishEventAsync(model);
+            await _eventData.UnpublishEventAsync(id);
         }
         public async Task CreateAsync(EventAddModel data, string userId)
         {

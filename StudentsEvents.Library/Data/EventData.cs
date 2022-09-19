@@ -45,15 +45,15 @@ namespace StudentsEvents.Library.Data
             return _context.Events.Where(x => x.IsDeleted == false && x.OwnerId == Id)
                 .Include("Tags").OrderBy(x => x.StartDate);
         }
-        public async Task PublishEventAsync(EventDatabaseModel model)
+        public async Task PublishEventAsync(Guid id)
         {
-            var data = await GetEventByIdAsync(model.Id);
+            var data = await GetEventByIdAsync(id);
             data.Published = true;
             await _context.SaveChangesAsync();
         }
-        public async Task UnpublishEventAsync(EventDatabaseModel model)
+        public async Task UnpublishEventAsync(Guid id)
         {
-            var data = await GetEventByIdAsync(model.Id);
+            var data = await GetEventByIdAsync(id);
             data.Published = false;
             await _context.SaveChangesAsync();
         }
