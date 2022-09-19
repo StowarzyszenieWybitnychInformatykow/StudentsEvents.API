@@ -1,6 +1,5 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
+using StudentsEvents.API.Filtering;
 using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.Models;
@@ -11,39 +10,42 @@ namespace StudentsEvents.API.Services
     {
         private readonly IMapper _mapper;
         private readonly IEventData _eventData;
-        public EventDataManaging(IMapper mapper, IEventData eventData)
+        private readonly IFilterService _filter;
+
+        public EventDataManaging(IMapper mapper, IEventData eventData, IFilterService filter)
         {
             _mapper = mapper;
             _eventData = eventData;
+            _filter = filter;
         }
-        public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging)
+        public async Task<PagedList<EventModel>> GetAllAsync(PagingModel paging, FilterModel filter)
         {
 
-            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetEventsAsync(),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetEventsAsync(), filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
-        public async Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging)
+        public async Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetPublishedEventsAsync(),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetPublishedEventsAsync(), filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
-        public async Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging)
+        public async Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnfinishedEventsAsync(),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetUnfinishedEventsAsync(),filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
-        public async Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging)
+        public async Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetUnpublishedEventsAsync(),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetUnpublishedEventsAsync(), filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
-        public async Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, string Id)
+        public async Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, FilterModel filter, string Id)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, await _eventData.GetMyEventsAsync(Id),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetMyEventsAsync(Id), filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
@@ -102,6 +104,11 @@ namespace StudentsEvents.API.Services
         {
             //var model = GetByIdAsync(id);
             await _eventData.DeleteEventAsync(id);
+        }
+
+        public async Task<IEnumerable<string>> GetDistinctCitys()
+        {
+            return await _eventData.GetAllDistinctCitysAsync();
         }
     }
 }

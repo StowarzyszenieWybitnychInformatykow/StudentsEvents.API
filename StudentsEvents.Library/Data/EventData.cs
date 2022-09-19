@@ -23,27 +23,27 @@ namespace StudentsEvents.Library.Data
         public async Task<IQueryable<Event>> GetEventsAsync()
         {
             return _context.Events.Where(x => x.IsDeleted == false)
-                .Include("Tags").OrderBy(x => x.StartDate);
+                .Include("Tags");
         }
         public async Task<IQueryable<Event>> GetPublishedEventsAsync()
         {
             return _context.Events.Where(x => x.IsDeleted == false && x.Published)
-                .Include("Tags").OrderBy(x => x.StartDate);
+                .Include("Tags");
         }
         public async Task<IQueryable<Event>> GetUnpublishedEventsAsync()
         {
             return _context.Events.Where(x => x.IsDeleted == false && !x.Published)
-                .Include("Tags").OrderBy(x => x.StartDate);
+                .Include("Tags");
         }
         public async Task<IQueryable<Event>> GetUnfinishedEventsAsync()
         {
             return _context.Events.Where(x => x.IsDeleted == false && x.EndDate > DateTimeOffset.UtcNow)
-                .Include("Tags").OrderBy(x => x.StartDate);
+                .Include("Tags");
         }
         public async Task<IQueryable<Event>> GetMyEventsAsync(string Id)
         {
             return _context.Events.Where(x => x.IsDeleted == false && x.OwnerId == Id)
-                .Include("Tags").OrderBy(x => x.StartDate);
+                .Include("Tags");
         }
         public async Task PublishEventAsync(Guid id)
         {
@@ -101,6 +101,11 @@ namespace StudentsEvents.Library.Data
         {
             _context.Events.Where(x => x.IsDeleted == false && x.Id == id).Single().IsDeleted = true;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IQueryable<string>> GetAllDistinctCitysAsync()
+        {
+            return _context.Events.Select(x => x.City).Distinct();
         }
     }
 }

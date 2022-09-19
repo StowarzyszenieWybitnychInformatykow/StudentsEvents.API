@@ -20,9 +20,9 @@ namespace StudentsEvents.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] PagingModel paging)
+        public async Task<IActionResult> GetAll([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
-            var owners = await _eventData.GetAllAsync(paging);
+            var owners = await _eventData.GetAllAsync(paging, filter);
             var metadata = new
             {
                 owners.TotalCount,
@@ -36,9 +36,9 @@ namespace StudentsEvents.API.Controllers
             return Ok(owners);
         }
         [HttpGet("GetPublished")]
-        public async Task<IActionResult> GetPublished([FromQuery] PagingModel paging)
+        public async Task<IActionResult> GetPublished([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
-            var owners = await _eventData.GetPublishedAsync(paging);
+            var owners = await _eventData.GetPublishedAsync(paging,filter);
             var metadata = new
             {
                 owners.TotalCount,
@@ -52,9 +52,9 @@ namespace StudentsEvents.API.Controllers
             return Ok(owners);
         }
         [HttpGet("GetUnfinished")]
-        public async Task<IActionResult> GetUnfinished([FromQuery] PagingModel paging)
+        public async Task<IActionResult> GetUnfinished([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
-            var owners = await _eventData.GetUnfinishedAsync(paging);
+            var owners = await _eventData.GetUnfinishedAsync(paging, filter);
             var metadata = new
             {
                 owners.TotalCount,
@@ -69,9 +69,9 @@ namespace StudentsEvents.API.Controllers
         }
         [HttpGet("GetUnpublished")]
         [Authorize]
-        public async Task<IActionResult> GetUnpublished([FromQuery] PagingModel paging)
+        public async Task<IActionResult> GetUnpublished([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
-            var owners = await _eventData.GetUnpublishedAsync(paging);
+            var owners = await _eventData.GetUnpublishedAsync(paging, filter);
             var metadata = new
             {
                 owners.TotalCount,
@@ -86,10 +86,10 @@ namespace StudentsEvents.API.Controllers
         }
         [HttpGet("GetMy")]
         [Authorize]
-        public async Task<IActionResult> GetMy([FromQuery] PagingModel paging)
+        public async Task<IActionResult> GetMy([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
             var userId = User.Claims.Where(x => x.Type == "user_id").Single().Value;
-            var owners = await _eventData.GetMyAsync(paging, userId);
+            var owners = await _eventData.GetMyAsync(paging, filter, userId);
             var metadata = new
             {
                 owners.TotalCount,
@@ -104,14 +104,14 @@ namespace StudentsEvents.API.Controllers
         }
         [HttpPost("PublishEvent")]
         [Authorize]
-        public async Task<IActionResult> PublishEvent([FromBody] Guid id)
+        public async Task<IActionResult> PublishEvent([FromQuery] Guid id)
         {
             await _eventData.PublishEventAsync(id);
             return Ok();
         }
         [HttpPost("UnpublishEvent")]
         [Authorize]
-        public async Task<IActionResult> UnpublishEvent([FromBody] Guid id)
+        public async Task<IActionResult> UnpublishEvent([FromQuery] Guid id)
         {
             await _eventData.UnpublishEventAsync(id);
             return Ok();
