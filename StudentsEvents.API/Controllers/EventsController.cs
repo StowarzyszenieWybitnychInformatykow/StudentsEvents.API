@@ -104,14 +104,14 @@ namespace StudentsEvents.API.Controllers
         }
         [HttpPost("PublishEvent")]
         [Authorize]
-        public async Task<IActionResult> PublishEvent([FromQuery] Guid id)
+        public async Task<IActionResult> PublishEvent([FromBody] Guid id)
         {
             await _eventData.PublishEventAsync(id);
             return Ok();
         }
         [HttpPost("UnpublishEvent")]
         [Authorize]
-        public async Task<IActionResult> UnpublishEvent([FromQuery] Guid id)
+        public async Task<IActionResult> UnpublishEvent([FromBody] Guid id)
         {
             await _eventData.UnpublishEventAsync(id);
             return Ok();
