@@ -47,7 +47,8 @@ builder.Services.AddAutoMapper(config =>
     config.CreateMap<Tag, TagDatabaseModel>();
     config.CreateMap<Event, EventModel>();
     config.CreateMap<Tag, TagModel>();
-    config.CreateMap<Event, EventPreviewModel>();
+    config.CreateMap<Event, EventPreviewModel>()
+                .ForMember(x => x.MainTag, opt => opt.MapFrom(u => u.Tags.FirstOrDefault()));
 });
 
 builder.Services.AddControllers();

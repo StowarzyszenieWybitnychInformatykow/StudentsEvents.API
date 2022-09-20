@@ -11,7 +11,7 @@
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public string City { get; set; }
-        public List<TagModel> Tags { get; set; }
+        public TagModel MainTag { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
     }
