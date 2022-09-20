@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using StudentsEvents.API.Filtering;
 using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.Models;
@@ -33,7 +32,7 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetUnfinishedEventsAsync(),filter).OrderBy(x => x.StartDate),
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetUnfinishedEventsAsync(), filter).OrderBy(x => x.StartDate),
                         paging.PageNumber,
                         paging.PageSize);
         }
@@ -62,7 +61,7 @@ namespace StudentsEvents.API.Services
         {
             await _eventData.UnpublishEventAsync(id);
         }
-        public async Task CreateAsync(EventAddModel data, string userId)
+        public async Task<Guid> CreateAsync(EventAddModel data, string userId)
         {
             var model = new EventModel
             {
@@ -93,6 +92,7 @@ namespace StudentsEvents.API.Services
             };
             var eventToAdd = _mapper.Map<EventDatabaseModel>(model);
             await _eventData.CreateEventAsync(eventToAdd);
+            return eventToAdd.Id;
         }
 
         public async Task UpdateAsync(EventModel modified)

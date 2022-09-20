@@ -127,8 +127,8 @@ namespace StudentsEvents.API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
-            await _eventData.CreateAsync(data, User.Claims.Where(x => x.Type == "user_id").Single().Value);
-            return Ok();
+            var id = await _eventData.CreateAsync(data, User.Claims.Where(x => x.Type == "user_id").Single().Value);
+            return Ok(id);
         }
         //[Authorize]
         //[HttpPut]
