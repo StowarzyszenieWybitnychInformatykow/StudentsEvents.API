@@ -83,13 +83,12 @@ namespace StudentsEvents.Library.Data
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
                 City = model.City,
-                //Region = model.Region
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                //StudentGovernmentId = model.StudentGovernmentId,
                 Published = model.Published,
                 OwnerID = model.OwnerID,
                 Organization = model.Organization,
+                LastModified = DateTimeOffset.Now,
                 NewEventId = 0
             });
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
@@ -104,7 +103,6 @@ namespace StudentsEvents.Library.Data
             data.Facebook = model.Facebook;
             data.Website = model.Website;
             data.Language = model.Language;
-            data.Upvotes = model.Upvotes;
             data.Registration = model.Registration;
             data.Tickets = model.Tickets;
             data.Online = model.Online;
@@ -114,8 +112,11 @@ namespace StudentsEvents.Library.Data
             data.City = model.City;
             data.StartDate = model.StartDate;
             data.EndDate = model.EndDate;
-            data.Published = model.Published;
+            data.Published = false;
             data.Tags = _mapper.Map<List<Tag>>(model.Tags);
+            data.LastModified = DateTimeOffset.Now;
+
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteEventAsync(Guid id)
         {

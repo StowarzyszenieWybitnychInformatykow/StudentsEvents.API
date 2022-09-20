@@ -44,13 +44,13 @@ namespace StudentsEvents.API.Controllers
             await _tagData.CreateAsync(model);
             return Ok();
         }
-        //[Authorize]
-        //[HttpPut]
-        //public async Task<IActionResult> Update(TagModel model)
-        //{
-        //    await _tagData.UpdateAsync(model);
-        //    return Ok();
-        //}
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> Update(TagModel model)
+        {
+            await _tagData.UpdateAsync(model);
+            return Ok();
+        }
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(TagModel model)

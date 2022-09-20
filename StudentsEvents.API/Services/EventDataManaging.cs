@@ -95,14 +95,13 @@ namespace StudentsEvents.API.Services
             return eventToAdd.Id;
         }
 
-        public async Task UpdateAsync(EventModel modified)
+        public async Task UpdateAsync(EventUpdateModel modified)
         {
             var eventToModify = _mapper.Map<EventDatabaseModel>(modified);
             await _eventData.UpdateEventAsync(eventToModify);
         }
         public async Task DeleteAsync(Guid id)
         {
-            //var model = GetByIdAsync(id);
             await _eventData.DeleteEventAsync(id);
         }
 

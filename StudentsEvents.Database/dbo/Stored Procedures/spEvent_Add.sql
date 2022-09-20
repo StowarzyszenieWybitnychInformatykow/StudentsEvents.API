@@ -29,6 +29,7 @@ CREATE PROCEDURE [dbo].[spEvent_Add]
   @Published BIT,
   @OwnerID NVARCHAR(128),
   @Organization NVARCHAR(128),
+  @LastModified DATETIMEOFFSET,
 
   @NewEventId INT OUTPUT
 
@@ -45,7 +46,8 @@ BEGIN
     [Registration], [Tickets],
     [Online], [Location], [Latitude], [Longitude], [City], [Region],
     [StartDate], [EndDate],
-    [StudentGovernmentId], [Published], [OwnerID], [Organization]
+    [StudentGovernmentId], [Published], [OwnerID], [Organization],
+    [LastModified]
   )
   VALUES(@ID,
     @Name, @ShortDescription,
@@ -55,7 +57,8 @@ BEGIN
     @Registration, @Tickets,
     @Online, @Location, @Latitude, @Longitude, @City, @Region,
     @StartDate, @EndDate,
-    @StudentGovernmentId, @Published, @OwnerID, @Organization
+    @StudentGovernmentId, @Published, @OwnerID, @Organization,
+    @LastModified
   )
 
   

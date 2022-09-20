@@ -47,6 +47,7 @@ builder.Services.AddAutoMapper(config =>
     config.CreateMap<Tag, TagDatabaseModel>();
     config.CreateMap<Event, EventModel>();
     config.CreateMap<Tag, TagModel>();
+    config.CreateMap<EventUpdateModel, EventDatabaseModel>();
 });
 
 builder.Services.AddControllers();
