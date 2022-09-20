@@ -88,7 +88,7 @@ namespace StudentsEvents.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetMy([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
-            var userId = User.Claims.Where(x => x.Type == "user_id").Single().Value;
+            var userId = GetUserId();
             var owners = await _eventData.GetMyAsync(paging, filter, userId);
             var metadata = new
             {
@@ -127,22 +127,31 @@ namespace StudentsEvents.API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
-            var id = await _eventData.CreateAsync(data, User.Claims.Where(x => x.Type == "user_id").Single().Value);
+            var id = await _eventData.CreateAsync(data, GetUserId());
             return Ok(id);
         }
-        //[Authorize]
-        //[HttpPut]
-        //public async Task<IActionResult> Put([FromBody] EventModel modified)
-        //{
-        //    await _eventData.UpdateAsync(modified);
-        //    return Ok();
-        //}
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] EventUpdateModel modified)
+        {
+            var model = await _eventData.GetByIdAsync(modified.Id);
+            if(GetUserId() != model.OwnerID)
+            {
+                return Unauthorized("You are not the owner");
+            }
+            await _eventData.UpdateAsync(modified);
+            return Ok();
+        }
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _eventData.DeleteAsync(id);
             return Ok();
+        }
+        private string GetUserId()
+        {
+            return User.Claims.Where(x => x.Type == "user_id").Single().Value;
         }
     }
 }

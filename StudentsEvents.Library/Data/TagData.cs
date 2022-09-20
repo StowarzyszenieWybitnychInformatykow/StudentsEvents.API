@@ -27,7 +27,9 @@ namespace StudentsEvents.Library.Data
         }
         public async Task UpdateTagAsync(TagDatabaseModel model)
         {
-            throw new NotImplementedException();
+            var data = await GetTagByIdAsync(model.Id);
+            data.Name = model.Name;
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteTagAsync(TagDatabaseModel model)
         {

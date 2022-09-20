@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using StudentsEvents.Library.DbAccess;
 using StudentsEvents.Library.DBEntityModels;
 using StudentsEvents.Library.Models;
-using System.Xml.Linq;
 
 namespace StudentsEvents.Library.Data
 {
@@ -12,13 +11,15 @@ namespace StudentsEvents.Library.Data
         private readonly ISqlDataAccess _data;
         private readonly ITagEventData _tagEventData;
         private readonly StudentsEventsDataDbContext _context;
+        private readonly IMapper _mapper;
 
         public EventData(ISqlDataAccess data, ITagEventData tagEventData,
-            StudentsEventsDataDbContext context)
+            StudentsEventsDataDbContext context, IMapper mapper)
         {
             _data = data;
             _tagEventData = tagEventData;
             _context = context;
+            _mapper = mapper;
         }
         public async Task<IQueryable<Event>> GetEventsAsync()
         {
@@ -64,7 +65,7 @@ namespace StudentsEvents.Library.Data
         }
         public async Task CreateEventAsync(EventDatabaseModel model)
         {
-            await _data.SaveDataAsync("[dbo].[spEvent_Add]", new 
+            await _data.SaveDataAsync("[dbo].[spEvent_Add]", new
             {
                 ID = model.Id,
                 Name = model.Name,
@@ -82,20 +83,40 @@ namespace StudentsEvents.Library.Data
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
                 City = model.City,
-                //Region = model.Region
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                //StudentGovernmentId = model.StudentGovernmentId,
                 Published = model.Published,
                 OwnerID = model.OwnerID,
                 Organization = model.Organization,
+                LastModified = DateTimeOffset.Now,
                 NewEventId = 0
             });
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
         }
         public async Task UpdateEventAsync(EventDatabaseModel model)
         {
-            throw new NotImplementedException();
+            var data = await GetEventByIdAsync(model.Id);
+            data.Name = model.Name;
+            data.ShortDescription = model.ShortDescription;
+            data.Thumbnail = model.Thumbnail;
+            data.Background = model.Background;
+            data.Facebook = model.Facebook;
+            data.Website = model.Website;
+            data.Language = model.Language;
+            data.Registration = model.Registration;
+            data.Tickets = model.Tickets;
+            data.Online = model.Online;
+            data.Location = model.Location;
+            data.Latitude = model.Latitude;
+            data.Longitude = model.Longitude;
+            data.City = model.City;
+            data.StartDate = model.StartDate;
+            data.EndDate = model.EndDate;
+            data.Published = false;
+            data.Tags = _mapper.Map<List<Tag>>(model.Tags);
+            data.LastModified = DateTimeOffset.Now;
+
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteEventAsync(Guid id)
         {
