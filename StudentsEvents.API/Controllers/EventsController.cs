@@ -35,6 +35,23 @@ namespace StudentsEvents.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
+        [HttpGet("GetPublishedPreview")]
+        public async Task<IActionResult> GetPublishedPreview([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
+        {
+            var owners = await _eventData.GetPublishedPreviewAsync(paging, filter);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
+        }
+
         [HttpGet("GetPublished")]
         public async Task<IActionResult> GetPublished([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {

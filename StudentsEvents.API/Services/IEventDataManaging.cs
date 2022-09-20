@@ -8,6 +8,7 @@ namespace StudentsEvents.API.Services
         Task DeleteAsync(Guid id);
         Task<PagedList<EventModel>> GetAllAsync(PagingModel paging, FilterModel filter);
         Task<PagedList<EventModel>> GetPublishedAsync(PagingModel paging, FilterModel filter);
+        Task<PagedList<EventPreviewModel>> GetPublishedPreviewAsync(PagingModel paging, FilterModel filter);
         Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging, FilterModel filter);
         Task<PagedList<EventModel>> GetUnfinishedAsync(PagingModel paging, FilterModel filter);
         Task PublishEventAsync(Guid id);

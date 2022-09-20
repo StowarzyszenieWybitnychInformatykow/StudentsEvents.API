@@ -1,16 +1,11 @@
 ﻿namespace StudentsEvents.API.Models
 {
-    public class EventAddModel
+    public class EventPreviewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string ShortDescription { get; set; }
         public string Thumbnail { get; set; }
         public string Background { get; set; }
-        public string Facebook { get; set; }
-        public string Website { get; set; }
-        public string Language { get; set; }
-        public bool Registration { get; set; }
-        public bool Tickets { get; set; }
         public bool Online { get; set; }
         public string Location { get; set; }
         public float Latitude { get; set; }

@@ -109,5 +109,12 @@ namespace StudentsEvents.API.Services
         {
             return await _eventData.GetAllDistinctCitysAsync();
         }
+
+        public async Task<PagedList<EventPreviewModel>> GetPublishedPreviewAsync(PagingModel paging, FilterModel filter)
+        {
+            return PagedList<EventPreviewModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetPublishedEventsAsync(), filter).OrderBy(x => x.StartDate),
+            paging.PageNumber,
+            paging.PageSize);
+        }
     }
 }
