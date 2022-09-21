@@ -49,7 +49,7 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetUpdatedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(_mapper.Map<IQueryable<Event>>(await _eventData.GetUpdateEventsAsync()), filter)
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(_mapper.Map<IEnumerable<Event>>(await _eventData.GetUpdateEventsAsync()), filter)
                 .OrderByDescending(x => x.LastModified),
                         paging.PageNumber,
                         paging.PageSize);

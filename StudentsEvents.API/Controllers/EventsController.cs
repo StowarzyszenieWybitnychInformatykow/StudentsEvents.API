@@ -145,14 +145,14 @@ namespace StudentsEvents.API.Controllers
 
         [HttpPost("ApproveUpdatedEvent")]
         [Authorize]
-        public async Task<IActionResult> ApproveUpdatedEvent([FromBody] Guid guid, [FromBody] DateTimeOffset date)
+        public async Task<IActionResult> ApproveUpdatedEvent([FromQuery] Guid guid, [FromQuery] DateTimeOffset date)
         {
             await _eventData.ApproveUpdateEventAsync(guid, date);
             return Ok();
         }
         [HttpPost("DeleteUpdatedEvent")]
         [Authorize]
-        public async Task<IActionResult> DeleteUpdatedEvent([FromBody] Guid guid, [FromBody] DateTimeOffset date)
+        public async Task<IActionResult> DeleteUpdatedEvent([FromQuery] Guid guid, [FromQuery] DateTimeOffset date)
         {
             await _eventData.DeleteUpdateEventAsync(guid, date);
             return Ok();

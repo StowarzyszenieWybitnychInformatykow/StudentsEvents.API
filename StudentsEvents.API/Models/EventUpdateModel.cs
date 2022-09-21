@@ -31,7 +31,5 @@ namespace StudentsEvents.API.Models
         public DateTimeOffset StartDate { get; set; }
         [Required]
         public DateTimeOffset EndDate { get; set; }
-        //public int StudentGovernmentId { get; set; }
-        //public string Organization { get; set; }
     }
 }
