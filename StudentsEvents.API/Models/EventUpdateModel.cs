@@ -20,6 +20,7 @@ namespace StudentsEvents.API.Models
         public string Language { get; set; }
         public bool Registration { get; set; }
         public bool Tickets { get; set; }
+        [Required]
         public bool Online { get; set; }
         public string Location { get; set; }
         public float Latitude { get; set; }
