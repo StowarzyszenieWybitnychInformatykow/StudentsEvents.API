@@ -126,9 +126,36 @@ namespace StudentsEvents.Library.Data
         }
         public async Task UpdateEventAsync(EventDatabaseModel model)
         {
-            var data = _mapper.Map<UpdateEvent>(model);
-            data.LastModified = DateTimeOffset.Now;
-            _context.UpdateEvents.Add(data);
+            var org = _context.Events.Single(x => x.Id == model.Id);
+            if (org.Published)
+            {
+                var data = _mapper.Map<UpdateEvent>(model);
+                data.LastModified = DateTimeOffset.Now;
+                _context.UpdateEvents.Add(data);
+            }
+            else
+            {
+                var data = await GetEventByIdAsync(model.Id);
+                data.Name = model.Name;
+                data.ShortDescription = model.ShortDescription;
+                data.Thumbnail = model.Thumbnail;
+                data.Background = model.Background;
+                data.Facebook = model.Facebook;
+                data.Website = model.Website;
+                data.Language = model.Language;
+                data.Registration = model.Registration;
+                data.Tickets = model.Tickets;
+                data.Online = model.Online;
+                data.Location = model.Location;
+                data.Latitude = model.Latitude;
+                data.Longitude = model.Longitude;
+                data.City = model.City;
+                data.StartDate = model.StartDate;
+                data.EndDate = model.EndDate;
+                data.Published = false;
+                data.Tags = _mapper.Map<List<Tag>>(model.Tags);
+                data.LastModified = DateTimeOffset.Now;
+            }
             await _context.SaveChangesAsync();
         }
         public async Task<IQueryable<UpdateEvent>> GetUpdateEventsAsync()

@@ -55,6 +55,9 @@ builder.Services.AddAutoMapper(config =>
     config.CreateMap<EventDatabaseModel, UpdateEvent>();
     config.CreateMap<Event, UpdateEvent>();
     config.CreateMap<UpdateEvent, Event>();
+    config.CreateMap<VwEventTag, TagModel>();
+    config.CreateMap<TagDatabaseModel, VwEventTag>();
+    config.CreateMap<VwEventTag, TagDatabaseModel>();
 });
 
 builder.Services.AddControllers();
