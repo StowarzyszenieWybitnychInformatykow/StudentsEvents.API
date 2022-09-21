@@ -51,6 +51,10 @@ builder.Services.AddAutoMapper(config =>
                 .ForMember(x => x.MainTag, opt => opt.MapFrom(u => u.Tags.FirstOrDefault()));
     config.CreateMap<EventUpdateModel, EventDatabaseModel>();
     config.CreateMap<TagDatabaseModel, Tag>();
+    config.CreateMap<UpdateEvent, EventDatabaseModel>();
+    config.CreateMap<EventDatabaseModel, UpdateEvent>();
+    config.CreateMap<Event, UpdateEvent>();
+    config.CreateMap<UpdateEvent, Event>();
 });
 
 builder.Services.AddControllers();

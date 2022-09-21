@@ -38,7 +38,9 @@ namespace StudentsEvents.Library.Data
         }
         public async Task<IQueryable<Event>> GetUnfinishedEventsAsync()
         {
-            return _context.Events.Where(x => x.IsDeleted == false && x.EndDate > DateTimeOffset.UtcNow)
+            return _context.Events.Where(x => x.IsDeleted == false &&
+            x.EndDate > DateTimeOffset.UtcNow &&
+            x.Published)
                 .Include("Tags");
         }
         public async Task<IQueryable<Event>> GetMyEventsAsync(string Id)
@@ -93,8 +95,9 @@ namespace StudentsEvents.Library.Data
             });
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
         }
-        public async Task UpdateEventAsync(EventDatabaseModel model)
+        public async Task ApprovedUpdateEventAsync(Guid id)
         {
+            var model = _context.UpdateEvents.Where(x => x.Id == id).Single();
             var data = await GetEventByIdAsync(model.Id);
             data.Name = model.Name;
             data.ShortDescription = model.ShortDescription;
@@ -112,11 +115,26 @@ namespace StudentsEvents.Library.Data
             data.City = model.City;
             data.StartDate = model.StartDate;
             data.EndDate = model.EndDate;
-            data.Published = false;
+            data.Published = data.Published;
             data.Tags = _mapper.Map<List<Tag>>(model.Tags);
-            data.LastModified = DateTimeOffset.Now;
+            data.LastModified = model.LastModified;
+
+            var uModel = _context.UpdateEvents.Where(x => x.Id == data.Id).FirstOrDefault();
+            _context.UpdateEvents.Remove(uModel);
 
             await _context.SaveChangesAsync();
+        }
+        public async Task UpdateEventAsync(EventDatabaseModel model)
+        {
+            var data = _mapper.Map<UpdateEvent>(model);
+            data.LastModified = DateTimeOffset.Now;
+            _context.UpdateEvents.Add(data);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<IQueryable<UpdateEvent>> GetUpdateEventsAsync()
+        {
+            return _context.UpdateEvents.Where(x => x.IsDeleted == false)
+                .Include("Tags");
         }
         public async Task DeleteEventAsync(Guid id)
         {

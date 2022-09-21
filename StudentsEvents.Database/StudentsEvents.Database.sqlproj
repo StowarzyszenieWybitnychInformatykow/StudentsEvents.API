@@ -96,6 +96,8 @@
     <Build Include="dbo\Stored Procedures\spEventTag_GetByTagId.sql" />
     <Build Include="dbo\Stored Procedures\spEvent_GetPage.sql" />
     <Build Include="dbo\Stored Procedures\spTag_GetEventTags.sql" />
+    <Build Include="dbo\Tables\UpdateEvent.sql" />
+    <Build Include="dbo\Tables\UpdateEventTags.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="StudentsEvents.Database.refactorlog" />
