@@ -51,8 +51,11 @@ builder.Services.AddAutoMapper(config =>
                 .ForMember(x => x.MainTag, opt => opt.MapFrom(u => u.Tags.FirstOrDefault()));
     config.CreateMap<EventUpdateModel, EventDatabaseModel>();
     config.CreateMap<TagDatabaseModel, Tag>();
-    config.CreateMap<UpdateEvent, EventDatabaseModel>();
-    config.CreateMap<EventDatabaseModel, UpdateEvent>();
+    config.CreateMap<UpdateEvent, EventDatabaseModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(u => u.EventId));
+    config.CreateMap<EventDatabaseModel, UpdateEvent>()
+                .ForMember(x => x.EventId, opt => opt.MapFrom(u => u.Id))
+                .ForMember(x => x.Id, val => val.Ignore());
     config.CreateMap<Event, UpdateEvent>();
     config.CreateMap<UpdateEvent, Event>();
     config.CreateMap<VwEventTag, TagModel>();

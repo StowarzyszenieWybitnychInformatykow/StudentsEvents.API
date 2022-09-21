@@ -18,6 +18,7 @@ namespace StudentsEvents.Library.Data
         Task UpdateEventAsync(EventDatabaseModel model);
         Task<IQueryable<string>> GetAllDistinctCitysAsync();
         Task<IQueryable<UpdateEvent>> GetUpdateEventsAsync();
-        Task ApprovedUpdateEventAsync(Guid id);
+        Task ApprovedUpdateEventAsync(EventDatabaseModel id);
+        Task DeleteUpdateEventAsync(Guid guid, DateTimeOffset date);
     }
 }

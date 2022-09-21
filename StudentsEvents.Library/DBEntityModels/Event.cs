@@ -7,6 +7,7 @@ namespace StudentsEvents.Library.DBEntityModels
     {
         public Event()
         {
+            UpdateEvents = new HashSet<UpdateEvent>();
             Tags = new HashSet<Tag>();
         }
 
@@ -37,6 +38,7 @@ namespace StudentsEvents.Library.DBEntityModels
         public bool IsDeleted { get; set; }
 
         public virtual StudentGovernment? StudentGovernment { get; set; }
+        public virtual ICollection<UpdateEvent> UpdateEvents { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
     }

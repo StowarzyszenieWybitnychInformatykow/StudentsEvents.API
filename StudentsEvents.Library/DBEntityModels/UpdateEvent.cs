@@ -10,7 +10,8 @@ namespace StudentsEvents.Library.DBEntityModels
             Tags = new HashSet<Tag>();
         }
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public Guid EventId { get; set; }
         public string Name { get; set; } = null!;
         public string ShortDescription { get; set; } = null!;
         public string Thumbnail { get; set; } = null!;
@@ -36,6 +37,7 @@ namespace StudentsEvents.Library.DBEntityModels
         public DateTimeOffset LastModified { get; set; }
         public bool IsDeleted { get; set; }
 
+        public virtual Event Event { get; set; } = null!;
         public virtual StudentGovernment? StudentGovernment { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }

@@ -95,9 +95,8 @@ namespace StudentsEvents.Library.Data
             });
             await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
         }
-        public async Task ApprovedUpdateEventAsync(Guid id)
+        public async Task ApprovedUpdateEventAsync(EventDatabaseModel model)
         {
-            var model = _context.UpdateEvents.Where(x => x.Id == id).Single();
             var data = await GetEventByIdAsync(model.Id);
             data.Name = model.Name;
             data.ShortDescription = model.ShortDescription;
@@ -119,8 +118,7 @@ namespace StudentsEvents.Library.Data
             data.Tags = _mapper.Map<List<Tag>>(model.Tags);
             data.LastModified = model.LastModified;
 
-            var uModel = _context.UpdateEvents.Where(x => x.Id == data.Id).FirstOrDefault();
-            _context.UpdateEvents.Remove(uModel);
+            _context.UpdateEvents.Where(x => x.EventId == data.Id && x.LastModified == data.LastModified).Single().IsDeleted = true;
 
             await _context.SaveChangesAsync();
         }
@@ -162,6 +160,10 @@ namespace StudentsEvents.Library.Data
         {
             return _context.UpdateEvents.Where(x => x.IsDeleted == false)
                 .Include("Tags");
+        }
+        public async Task DeleteUpdateEventAsync(Guid guid, DateTimeOffset date)
+        {
+            _context.UpdateEvents.Where(x => x.EventId == guid && x.LastModified == date).Single().IsDeleted = true;
         }
         public async Task DeleteEventAsync(Guid id)
         {

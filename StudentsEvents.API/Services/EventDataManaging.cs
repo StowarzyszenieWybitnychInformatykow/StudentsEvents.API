@@ -50,7 +50,7 @@ namespace StudentsEvents.API.Services
         public async Task<PagedList<EventModel>> GetUpdatedAsync(PagingModel paging, FilterModel filter)
         {
             return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(_mapper.Map<IQueryable<Event>>(await _eventData.GetUpdateEventsAsync()), filter)
-                .OrderBy(x => x.StartDate),
+                .OrderByDescending(x => x.LastModified),
                         paging.PageNumber,
                         paging.PageSize);
         }
@@ -125,9 +125,14 @@ namespace StudentsEvents.API.Services
             paging.PageNumber,
             paging.PageSize);
         }
-        public async Task ApproveUpdateEventAsync(Guid id)
+        public async Task ApproveUpdateEventAsync(Guid guid, DateTimeOffset date)
         {
-            await _eventData.ApprovedUpdateEventAsync(id);
+            var data = (await _eventData.GetUpdateEventsAsync()).Where(x => x.EventId == guid && x.LastModified == date).Single();
+            await _eventData.ApprovedUpdateEventAsync(_mapper.Map<EventDatabaseModel>(data));
+        }
+        public async Task DeleteUpdateEventAsync(Guid guid, DateTimeOffset date)
+        {
+            await _eventData.DeleteUpdateEventAsync(guid, date);
         }
     }
 }

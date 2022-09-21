@@ -136,11 +136,25 @@ namespace StudentsEvents.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
         }
+
+        [HttpGet("getbyid/{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            return Ok(await _eventData.GetByIdAsync(id));
+        }
+
         [HttpPost("ApproveUpdatedEvent")]
         [Authorize]
-        public async Task<IActionResult> ApproveUpdatedEvent([FromBody] Guid id)
+        public async Task<IActionResult> ApproveUpdatedEvent([FromBody] Guid guid, [FromBody] DateTimeOffset date)
         {
-            await _eventData.ApproveUpdateEventAsync(id);
+            await _eventData.ApproveUpdateEventAsync(guid, date);
+            return Ok();
+        }
+        [HttpPost("DeleteUpdatedEvent")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUpdatedEvent([FromBody] Guid guid, [FromBody] DateTimeOffset date)
+        {
+            await _eventData.DeleteUpdateEventAsync(guid, date);
             return Ok();
         }
         [HttpPost("PublishEvent")]
@@ -156,12 +170,6 @@ namespace StudentsEvents.API.Controllers
         {
             await _eventData.UnpublishEventAsync(id);
             return Ok();
-        }
-
-        [HttpGet("getbyid/{id}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            return Ok(await _eventData.GetByIdAsync(id));
         }
 
         [HttpPost]
