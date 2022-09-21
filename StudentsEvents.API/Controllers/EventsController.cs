@@ -19,22 +19,22 @@ namespace StudentsEvents.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
-        {
-            var owners = await _eventData.GetAllAsync(paging, filter);
-            var metadata = new
-            {
-                owners.TotalCount,
-                owners.PageSize,
-                owners.CurrentPage,
-                owners.TotalPages,
-                owners.HasNext,
-                owners.HasPrevious
-            };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(owners);
-        }
+        //[HttpGet("GetAll")]
+        //public async Task<IActionResult> GetAll([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
+        //{
+        //    var owners = await _eventData.GetAllAsync(paging, filter);
+        //    var metadata = new
+        //    {
+        //        owners.TotalCount,
+        //        owners.PageSize,
+        //        owners.CurrentPage,
+        //        owners.TotalPages,
+        //        owners.HasNext,
+        //        owners.HasPrevious
+        //    };
+        //    Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        //    return Ok(owners);
+        //}
         [HttpGet("GetPublishedPreview")]
         public async Task<IActionResult> GetPublishedPreview([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
@@ -118,6 +118,30 @@ namespace StudentsEvents.API.Controllers
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(owners);
+        }
+        [HttpGet("GetUpdated")]
+        [Authorize]
+        public async Task<IActionResult> GetUpdatedAsync([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
+        {
+            var owners = await _eventData.GetUpdatedAsync(paging, filter);
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(owners);
+        }
+        [HttpPost("ApproveUpdatedEvent")]
+        [Authorize]
+        public async Task<IActionResult> ApproveUpdatedEvent([FromBody] Guid id)
+        {
+            await _eventData.ApproveUpdateEventAsync(id);
+            return Ok();
         }
         [HttpPost("PublishEvent")]
         [Authorize]
