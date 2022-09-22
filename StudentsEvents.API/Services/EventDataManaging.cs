@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DBEntityModels;
@@ -49,7 +50,7 @@ namespace StudentsEvents.API.Services
         }
         public async Task<PagedList<EventModel>> GetUpdatedAsync(PagingModel paging, FilterModel filter)
         {
-            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(_mapper.Map<IEnumerable<Event>>(await _eventData.GetUpdateEventsAsync()), filter)
+            return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(_mapper.Map<IEnumerable<Event>>((await _eventData.GetUpdateEventsAsync()).AsEnumerable()), filter)
                 .OrderByDescending(x => x.LastModified),
                         paging.PageNumber,
                         paging.PageSize);
@@ -106,9 +107,10 @@ namespace StudentsEvents.API.Services
             await _eventData.CreateEventAsync(eventToAdd);
             return eventToAdd.Id;
         }
-        public async Task UpdateAsync(EventUpdateModel modified)
+        public async Task UpdateAsync(EventUpdateModel modified, string id)
         {
             var eventToModify = _mapper.Map<EventDatabaseModel>(modified);
+            eventToModify.OwnerID = id;
             await _eventData.UpdateEventAsync(eventToModify);
         }
         public async Task DeleteAsync(Guid id)

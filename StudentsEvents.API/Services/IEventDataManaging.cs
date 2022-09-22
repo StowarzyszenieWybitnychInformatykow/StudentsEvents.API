@@ -15,7 +15,7 @@ namespace StudentsEvents.API.Services
         Task UnpublishEventAsync(Guid id);
         Task<PagedList<EventModel>> GetMyAsync(PagingModel paging, FilterModel filter, string Id);
         Task<EventModel> GetByIdAsync(Guid id);
-        Task UpdateAsync(EventUpdateModel modified);
+        Task UpdateAsync(EventUpdateModel modified, string id);
         Task<IEnumerable<string>> GetDistinctCitys();
         Task<PagedList<EventModel>> GetUpdatedAsync(PagingModel paging, FilterModel filter);
         Task ApproveUpdateEventAsync(Guid guid, DateTimeOffset date);

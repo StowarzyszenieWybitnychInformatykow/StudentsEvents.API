@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[spEventTag_Add]
+﻿CREATE PROCEDURE [dbo].[spUpdateEventTag_Add]
   @eventId UNIQUEIDENTIFIER,
   @tagId INT
 
@@ -8,4 +8,3 @@ BEGIN
   INSERT INTO [dbo].[EventTags] (EventId, TagId)
   VALUES (@eventId, @tagId)
 END
-

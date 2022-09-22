@@ -56,8 +56,11 @@ builder.Services.AddAutoMapper(config =>
     config.CreateMap<EventDatabaseModel, UpdateEvent>()
                 .ForMember(x => x.EventId, opt => opt.MapFrom(u => u.Id))
                 .ForMember(x => x.Id, val => val.Ignore());
-    config.CreateMap<Event, UpdateEvent>();
-    config.CreateMap<UpdateEvent, Event>();
+    config.CreateMap<UpdateEvent, Event>()
+            .ForMember(x => x.Id, opt => opt.MapFrom(u => u.EventId));
+    config.CreateMap<Event, UpdateEvent>()
+            .ForMember(x => x.EventId, opt => opt.MapFrom(u => u.Id))
+            .ForMember(x => x.Id, val => val.Ignore());
     config.CreateMap<VwEventTag, TagModel>();
     config.CreateMap<TagDatabaseModel, VwEventTag>();
     config.CreateMap<VwEventTag, TagDatabaseModel>();
@@ -94,11 +97,11 @@ builder.Services.AddSwaggerGen(c => {
 });
 
 //Data
-//TODO: Change Singleton to Transient
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<IEventData, EventData>();
 builder.Services.AddScoped<ITagData, TagData>();
 builder.Services.AddScoped<ITagEventData, TagEventData>();
+builder.Services.AddScoped<ITagUpdateEventData, TagUpdateEventData>();
 
 //Services
 builder.Services.AddScoped<IEventDataManaging, EventDataManaging>();

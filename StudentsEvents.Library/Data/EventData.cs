@@ -12,14 +12,17 @@ namespace StudentsEvents.Library.Data
         private readonly ITagEventData _tagEventData;
         private readonly StudentsEventsDataDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ITagUpdateEventData _tagUpdateEvent;
 
         public EventData(ISqlDataAccess data, ITagEventData tagEventData,
-            StudentsEventsDataDbContext context, IMapper mapper)
+            StudentsEventsDataDbContext context, IMapper mapper,
+            ITagUpdateEventData tagUpdateEvent)
         {
             _data = data;
             _tagEventData = tagEventData;
             _context = context;
             _mapper = mapper;
+            _tagUpdateEvent = tagUpdateEvent;
         }
         public async Task<IQueryable<Event>> GetEventsAsync()
         {
@@ -93,7 +96,7 @@ namespace StudentsEvents.Library.Data
                 LastModified = DateTimeOffset.Now,
                 NewEventId = 0
             });
-            await _tagEventData.AddTagsToEvent(model.Tags, model.Id);
+            await _tagEventData.AddTagsToUpdatedEvent(model.Tags, model.Id);
         }
         public async Task ApprovedUpdateEventAsync(EventDatabaseModel model)
         {
@@ -114,7 +117,8 @@ namespace StudentsEvents.Library.Data
             data.City = model.City;
             data.StartDate = model.StartDate;
             data.EndDate = model.EndDate;
-            data.Published = data.Published;
+            data.Published = true;
+            data.Organization = model.Organization;
             data.Tags = _mapper.Map<List<Tag>>(model.Tags);
             data.LastModified = model.LastModified;
 
@@ -127,9 +131,35 @@ namespace StudentsEvents.Library.Data
             var org = _context.Events.Single(x => x.Id == model.Id);
             if (org.Published)
             {
-                var data = _mapper.Map<UpdateEvent>(model);
-                data.LastModified = DateTimeOffset.Now;
-                _context.UpdateEvents.Add(data);
+                model.LastModified = DateTimeOffset.Now;
+                await _data.SaveDataAsync("[dbo].[spUpdateEvent_Add]", new
+                {
+                    ID = model.Id,
+                    Name = model.Name,
+                    ShortDescription = model.ShortDescription,
+                    Thumbnail = model.Thumbnail,
+                    Background = model.Background,
+                    Facebook = model.Facebook,
+                    Website = model.Website,
+                    Language = model.Language,
+                    Upvotes = model.Upvotes,
+                    Registration = model.Registration,
+                    Tickets = model.Tickets,
+                    Online = model.Online,
+                    Location = model.Location,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
+                    City = model.City,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    Published = model.Published,
+                    OwnerID = model.OwnerID,
+                    Organization = model.Organization,
+                    LastModified = DateTimeOffset.Now,
+                    NewEventId = 0
+                });
+                await _tagEventData.AddTagsToUpdatedEvent(model.Tags, model.Id);
+
             }
             else
             {
@@ -151,6 +181,7 @@ namespace StudentsEvents.Library.Data
                 data.StartDate = model.StartDate;
                 data.EndDate = model.EndDate;
                 data.Published = false;
+                data.Organization = model.Organization;
                 data.Tags = _mapper.Map<List<Tag>>(model.Tags);
                 data.LastModified = DateTimeOffset.Now;
             }
@@ -170,7 +201,6 @@ namespace StudentsEvents.Library.Data
             _context.Events.Where(x => x.IsDeleted == false && x.Id == id).Single().IsDeleted = true;
             await _context.SaveChangesAsync();
         }
-
         public async Task<IQueryable<string>> GetAllDistinctCitysAsync()
         {
             return _context.Events.Select(x => x.City).Distinct();

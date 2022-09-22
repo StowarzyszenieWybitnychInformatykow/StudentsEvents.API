@@ -184,11 +184,12 @@ namespace StudentsEvents.API.Controllers
         public async Task<IActionResult> Put([FromBody] EventUpdateModel modified)
         {
             var model = await _eventData.GetByIdAsync(modified.Id);
-            if(GetUserId() != model.OwnerID)
+            var userId = GetUserId();
+            if (userId != model.OwnerID)
             {
                 return Unauthorized("You are not the owner");
             }
-            await _eventData.UpdateAsync(modified);
+            await _eventData.UpdateAsync(modified, userId);
             return Ok();
         }
         [Authorize]
