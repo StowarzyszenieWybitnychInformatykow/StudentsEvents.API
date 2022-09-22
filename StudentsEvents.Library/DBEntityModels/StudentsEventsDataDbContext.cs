@@ -19,6 +19,7 @@ namespace StudentsEvents.Library.DBEntityModels
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<StudentGovernment> StudentGovernments { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
+        public virtual DbSet<UpdateEvent> UpdateEvents { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<VwEventGetAll> VwEventGetAlls { get; set; } = null!;
         public virtual DbSet<VwEventGetPublished> VwEventGetPublisheds { get; set; } = null!;
@@ -131,6 +132,79 @@ namespace StudentsEvents.Library.DBEntityModels
                 entity.ToTable("Tag");
 
                 entity.Property(e => e.Name).HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<UpdateEvent>(entity =>
+            {
+                entity.ToTable("UpdateEvent");
+
+                entity.Property(e => e.Background).HasMaxLength(256);
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(128)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.Facebook)
+                    .HasMaxLength(256)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.Language)
+                    .HasMaxLength(128)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.LastModified).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Latitude).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(128)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.Longitude).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.Property(e => e.Organization)
+                    .HasMaxLength(128)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.OwnerId)
+                    .HasMaxLength(128)
+                    .HasColumnName("OwnerID");
+
+                entity.Property(e => e.Region)
+                    .HasMaxLength(128)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.Property(e => e.Thumbnail).HasMaxLength(256);
+
+                entity.Property(e => e.Website)
+                    .HasMaxLength(256)
+                    .HasDefaultValueSql("('N/A')");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.UpdateEvents)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UpdateEve__Event__22401542");
+
+                entity.HasOne(d => d.StudentGovernment)
+                    .WithMany(p => p.UpdateEvents)
+                    .HasForeignKey(d => d.StudentGovernmentId)
+                    .HasConstraintName("FK__UpdateEve__Stude__214BF109");
+
+                entity.HasMany(d => d.Tags)
+                    .WithMany(p => p.EventsNavigation)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "UpdateEventTag",
+                        l => l.HasOne<Tag>().WithMany().HasForeignKey("TagId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UpdateEve__TagId__2334397B"),
+                        r => r.HasOne<UpdateEvent>().WithMany().HasForeignKey("EventId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UpdateEve__Event__2057CCD0"),
+                        j =>
+                        {
+                            j.HasKey("EventId", "TagId").HasName("PK__tmp_ms_x__AF13078A954CB1CB");
+
+                            j.ToTable("UpdateEventTags");
+                        });
             });
 
             modelBuilder.Entity<User>(entity =>

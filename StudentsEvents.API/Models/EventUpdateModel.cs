@@ -22,6 +22,7 @@ namespace StudentsEvents.API.Models
         public bool Tickets { get; set; }
         [Required]
         public bool Online { get; set; }
+        public string Organization { get; set; }
         public string Location { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
@@ -31,7 +32,5 @@ namespace StudentsEvents.API.Models
         public DateTimeOffset StartDate { get; set; }
         [Required]
         public DateTimeOffset EndDate { get; set; }
-        //public int StudentGovernmentId { get; set; }
-        //public string Organization { get; set; }
     }
 }

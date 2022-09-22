@@ -8,6 +8,6 @@
         public bool? IsOnline { get; set; } = null;
         public DateTimeOffset? Start { get; set; } = null;
         public DateTimeOffset? End { get; set; } = null;
-        public string? Text = null;
+        public string? Text { get; set; } = null;
     }
 }

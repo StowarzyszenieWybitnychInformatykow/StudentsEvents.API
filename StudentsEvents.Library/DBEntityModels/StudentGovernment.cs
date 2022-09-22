@@ -8,6 +8,7 @@ namespace StudentsEvents.Library.DBEntityModels
         public StudentGovernment()
         {
             Events = new HashSet<Event>();
+            UpdateEvents = new HashSet<UpdateEvent>();
         }
 
         public int Id { get; set; }
@@ -22,5 +23,6 @@ namespace StudentsEvents.Library.DBEntityModels
         public string Username { get; set; } = null!;
 
         public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<UpdateEvent> UpdateEvents { get; set; }
     }
 }

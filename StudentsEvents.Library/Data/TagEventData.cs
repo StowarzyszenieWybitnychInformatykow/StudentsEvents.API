@@ -17,11 +17,11 @@ namespace StudentsEvents.Library.Data
         {
             _data = data;
         }
-        public async Task AddTagsToEvent(IEnumerable<TagDatabaseModel> tags, Guid EventId)
+        public async Task AddTagsToUpdatedEvent(IEnumerable<TagDatabaseModel> tags, Guid EventId)
         {
             foreach (var item in tags)
             {
-                await _data.SaveDataAsync("[dbo].[spEventTag_Add]", new { eventId = EventId, tagId = item.Id, NewEventTagId = 0 });
+                await _data.SaveDataAsync("[dbo].[spEventTag_Add]", new { eventId = EventId, tagId = item.Id });
             }
         }
         public async Task<IEnumerable<TagDatabaseModel>> GetTagsByEventIdAsync(Guid id)
