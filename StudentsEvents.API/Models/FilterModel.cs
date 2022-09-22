@@ -9,5 +9,6 @@
         public DateTimeOffset? Start { get; set; } = null;
         public DateTimeOffset? End { get; set; } = null;
         public string? Text { get; set; } = null;
+        public bool? Tickets { get; set; } = null;
     }
 }

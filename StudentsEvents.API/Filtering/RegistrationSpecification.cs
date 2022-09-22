@@ -12,11 +12,7 @@ namespace StudentsEvents.API.Filtering
         }
         public bool IsSatisfied(Event entity)
         {
-            if(entity.Registration == _isRegistration)
-            {
-                return true;
-            }
-            return false;
+            return entity.Registration == _isRegistration;
         }
     }
 }

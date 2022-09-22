@@ -35,6 +35,8 @@ namespace StudentsEvents.API.Services
                 specifications.Add(new TimeSpecification(filter.Start, filter.End));
             if (filter?.Text != null)
                 specifications.Add(new TextSpecification(filter.Text.Split()));
+            if (filter?.Tickets != null)
+                specifications.Add(new TicketsSpecification((bool)filter.Tickets));
 
             return specifications;
         }
