@@ -78,7 +78,7 @@ namespace StudentsEvents.API.Services
         {
             var model = new EventModel
             {
-                Id = Guid.NewGuid(),
+                Id = data.Id != Guid.Empty ? data.Id : Guid.NewGuid(),
                 Name = data.Name,
                 ShortDescription = data.ShortDescription,
                 Thumbnail = data.Thumbnail,
@@ -100,7 +100,7 @@ namespace StudentsEvents.API.Services
                 StudentGovernmentId = 0,
                 Published = false,
                 OwnerID = userId,
-                Organization = "",
+                Organization = data.Organization,
                 LastModified = DateTimeOffset.UtcNow
             };
             var eventToAdd = _mapper.Map<EventDatabaseModel>(model);
