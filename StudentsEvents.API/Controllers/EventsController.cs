@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentsEvents.API.Models;
 using StudentsEvents.API.Services;
+using StudentsEvents.Library.DBEntityModels;
+using System.Data;
 
 namespace StudentsEvents.API.Controllers
 {
@@ -85,7 +87,7 @@ namespace StudentsEvents.API.Controllers
             return Ok(owners);
         }
         [HttpGet("GetUnpublished")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUnpublished([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
             var owners = await _eventData.GetUnpublishedAsync(paging, filter);
@@ -120,7 +122,7 @@ namespace StudentsEvents.API.Controllers
             return Ok(owners);
         }
         [HttpGet("GetUpdated")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUpdatedAsync([FromQuery] PagingModel paging, [FromQuery] FilterModel filter)
         {
             var owners = await _eventData.GetUpdatedAsync(paging, filter);
@@ -144,28 +146,28 @@ namespace StudentsEvents.API.Controllers
         }
 
         [HttpPost("ApproveUpdatedEvent")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApproveUpdatedEvent([FromQuery] Guid guid, [FromQuery] DateTimeOffset date)
         {
             await _eventData.ApproveUpdateEventAsync(guid, date);
             return Ok();
         }
         [HttpPost("DeleteUpdatedEvent")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUpdatedEvent([FromQuery] Guid guid, [FromQuery] DateTimeOffset date)
         {
             await _eventData.DeleteUpdateEventAsync(guid, date);
             return Ok();
         }
         [HttpPost("PublishEvent")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PublishEvent([FromBody] Guid id)
         {
             await _eventData.PublishEventAsync(id);
             return Ok();
         }
         [HttpPost("UnpublishEvent")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UnpublishEvent([FromBody] Guid id)
         {
             await _eventData.UnpublishEventAsync(id);
@@ -196,6 +198,14 @@ namespace StudentsEvents.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            var model = await _eventData.GetByIdAsync(id);
+            if (GetUserId() != model.OwnerID && User.Claims
+                .Where(x => x.Type.Contains("role"))
+                ?.FirstOrDefault()
+                ?.Value != "Admin")
+            {
+                return Unauthorized("You are not the owner or admin");
+            }
             await _eventData.DeleteAsync(id);
             return Ok();
         }

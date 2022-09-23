@@ -17,6 +17,7 @@ namespace StudentsEvents.Library.DBEntityModels
         }
 
         public virtual DbSet<Event> Events { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<StudentGovernment> StudentGovernments { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<UpdateEvent> UpdateEvents { get; set; } = null!;
@@ -98,6 +99,11 @@ namespace StudentsEvents.Library.DBEntityModels
 
                             j.ToTable("EventTags");
                         });
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<StudentGovernment>(entity =>
@@ -209,7 +215,14 @@ namespace StudentsEvents.Library.DBEntityModels
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => new { e.Id, e.RoleId })
+                    .HasName("PK__tmp_ms_x__8ABB40E61E775242");
+
                 entity.ToTable("User");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(28)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<VwEventGetAll>(entity =>

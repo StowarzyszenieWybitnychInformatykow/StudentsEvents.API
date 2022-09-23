@@ -37,21 +37,21 @@ namespace StudentsEvents.API.Controllers
         {
             return Ok(await _tagData.GetTagByIdAsync(id));
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(TagModel model)
         {
             await _tagData.CreateAsync(model);
             return Ok();
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Update(TagModel model)
         {
             await _tagData.UpdateAsync(model);
             return Ok();
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> Delete(TagModel model)
         {
