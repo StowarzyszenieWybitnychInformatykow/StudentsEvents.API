@@ -11,12 +11,19 @@ using StudentsEvents.Library.Models;
 using System.Text;
 using StudentsEvents.API.Services;
 using StudentsEvents.API.Models;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 IConfiguration configuration = new ConfigurationBuilder()
                             .AddJsonFile("appsettings.json")
                             .Build();
 
 var builder = WebApplication.CreateBuilder(args);
+
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.GetApplicationDefault(),
+});
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -102,6 +109,8 @@ builder.Services.AddScoped<IEventData, EventData>();
 builder.Services.AddScoped<ITagData, TagData>();
 builder.Services.AddScoped<ITagEventData, TagEventData>();
 builder.Services.AddScoped<ITagUpdateEventData, TagUpdateEventData>();
+builder.Services.AddScoped<IUserData, UserData>();
+builder.Services.AddScoped<IUserManaging, UserManaging>();
 
 //Services
 builder.Services.AddScoped<IEventDataManaging, EventDataManaging>();
