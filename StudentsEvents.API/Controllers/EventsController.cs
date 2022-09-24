@@ -178,7 +178,11 @@ namespace StudentsEvents.API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
-            var id = await _eventData.CreateAsync(data, GetUserId());
+            Guid id;
+            if (await _eventData.IsDeletedAsync(data.Id))
+                id = await _eventData.EditDeletedAsync(data);
+            else
+                id = await _eventData.CreateAsync(data, GetUserId());
             return Ok(id);
         }
         [Authorize]

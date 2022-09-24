@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using StudentsEvents.API.Controllers;
 using StudentsEvents.API.Models;
 using StudentsEvents.Library.Data;
 using StudentsEvents.Library.DBEntityModels;
 using StudentsEvents.Library.Models;
+using System.Xml.Linq;
 
 namespace StudentsEvents.API.Services
 {
@@ -74,6 +76,37 @@ namespace StudentsEvents.API.Services
         {
             await _eventData.UnpublishEventAsync(id);
         }
+        public async Task<Guid> EditDeletedAsync(EventAddModel data)
+        {
+            var IsDeleted = (await _eventData.GetDeletedAsync()).Single(x => x.Id == data.Id);
+
+            IsDeleted.Published = false;
+            IsDeleted.IsDeleted = false;
+
+            IsDeleted.Name = data.Name;
+            IsDeleted.ShortDescription = data.ShortDescription;
+            IsDeleted.Thumbnail = data.Thumbnail;
+            IsDeleted.Background = data.Background;
+            IsDeleted.Facebook = data.Facebook;
+            IsDeleted.Website = data.Website;
+            IsDeleted.Language = data.Language;
+            IsDeleted.Upvotes = 0;
+            IsDeleted.Registration = data.Registration;
+            IsDeleted.Tickets = data.Tickets;
+            IsDeleted.Online = data.Online;
+            IsDeleted.Location = data.Location;
+            IsDeleted.Latitude = data.Latitude;
+            IsDeleted.Longitude = data.Longitude;
+            IsDeleted.City = data.City;
+            IsDeleted.Tags = _mapper.Map<List<Tag>>(data.Tags);
+            IsDeleted.StartDate = data.StartDate;
+            IsDeleted.EndDate = data.EndDate;
+            IsDeleted.StudentGovernmentId = 0;
+            IsDeleted.Organization = data.Organization;
+            IsDeleted.LastModified = DateTimeOffset.UtcNow;
+
+            return IsDeleted.Id;
+        }
         public async Task<Guid> CreateAsync(EventAddModel data, string userId)
         {
             var model = new EventModel
@@ -135,6 +168,10 @@ namespace StudentsEvents.API.Services
         public async Task DeleteUpdateEventAsync(Guid guid, DateTimeOffset date)
         {
             await _eventData.DeleteUpdateEventAsync(guid, date);
+        }
+        public async Task<bool> IsDeletedAsync(Guid id)
+        {
+            return (await _eventData.GetDeletedAsync()).Single(x => x.Id == id) != null;
         }
     }
 }

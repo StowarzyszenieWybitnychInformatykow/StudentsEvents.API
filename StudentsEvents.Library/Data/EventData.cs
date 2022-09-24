@@ -51,6 +51,11 @@ namespace StudentsEvents.Library.Data
             return _context.Events.Where(x => x.IsDeleted == false && x.OwnerId == Id)
                 .Include("Tags");
         }
+        public async Task<IQueryable<Event>> GetDeletedAsync()
+        {
+            return _context.Events.Where(x => x.IsDeleted == true)
+                .Include("Tags");
+        }
         public async Task PublishEventAsync(Guid id)
         {
             var data = await GetEventByIdAsync(id);

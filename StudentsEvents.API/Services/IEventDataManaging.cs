@@ -20,5 +20,7 @@ namespace StudentsEvents.API.Services
         Task<PagedList<EventModel>> GetUpdatedAsync(PagingModel paging, FilterModel filter);
         Task ApproveUpdateEventAsync(Guid guid, DateTimeOffset date);
         Task DeleteUpdateEventAsync(Guid guid, DateTimeOffset date);
+        Task<Guid> EditDeletedAsync(EventAddModel data);
+        Task<bool> IsDeletedAsync(Guid id);
     }
 }

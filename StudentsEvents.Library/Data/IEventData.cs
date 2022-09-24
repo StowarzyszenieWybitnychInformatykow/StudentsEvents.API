@@ -10,6 +10,7 @@ namespace StudentsEvents.Library.Data
         Task<IQueryable<Event>> GetUnpublishedEventsAsync();
         Task<IQueryable<Event>> GetUnfinishedEventsAsync();
         Task<IQueryable<Event>> GetMyEventsAsync(string Id);
+        Task<IQueryable<Event>> GetDeletedAsync();
         Task PublishEventAsync(Guid id);
         Task UnpublishEventAsync(Guid id);
         Task<Event> GetEventByIdAsync(Guid id);
