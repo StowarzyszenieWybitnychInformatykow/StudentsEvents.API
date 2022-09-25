@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using StudentsEvents.API.Controllers;
 using StudentsEvents.API.Models;
@@ -46,7 +47,7 @@ namespace StudentsEvents.API.Services
         public async Task<PagedList<EventModel>> GetUnpublishedAsync(PagingModel paging, FilterModel filter)
         {
             return PagedList<EventModel>.ToPagedList(_mapper, _filter.GetSpecificData(await _eventData.GetUnpublishedEventsAsync(), filter)
-                .OrderBy(x => x.StartDate),
+                .OrderByDescending(x => x.LastModified),
                         paging.PageNumber,
                         paging.PageSize);
         }
@@ -76,34 +77,11 @@ namespace StudentsEvents.API.Services
         {
             await _eventData.UnpublishEventAsync(id);
         }
-        public async Task<Guid> EditDeletedAsync(EventAddModel data)
+        public async Task<Guid> UndeleteAsync(EventAddModel data)
         {
             var IsDeleted = (await _eventData.GetDeletedAsync()).Single(x => x.Id == data.Id);
 
-            IsDeleted.Published = false;
-            IsDeleted.IsDeleted = false;
-
-            IsDeleted.Name = data.Name;
-            IsDeleted.ShortDescription = data.ShortDescription;
-            IsDeleted.Thumbnail = data.Thumbnail;
-            IsDeleted.Background = data.Background;
-            IsDeleted.Facebook = data.Facebook;
-            IsDeleted.Website = data.Website;
-            IsDeleted.Language = data.Language;
-            IsDeleted.Upvotes = 0;
-            IsDeleted.Registration = data.Registration;
-            IsDeleted.Tickets = data.Tickets;
-            IsDeleted.Online = data.Online;
-            IsDeleted.Location = data.Location;
-            IsDeleted.Latitude = data.Latitude;
-            IsDeleted.Longitude = data.Longitude;
-            IsDeleted.City = data.City;
-            IsDeleted.Tags = _mapper.Map<List<Tag>>(data.Tags);
-            IsDeleted.StartDate = data.StartDate;
-            IsDeleted.EndDate = data.EndDate;
-            IsDeleted.StudentGovernmentId = 0;
-            IsDeleted.Organization = data.Organization;
-            IsDeleted.LastModified = DateTimeOffset.UtcNow;
+            await _eventData.UndeleteAndUnpublishEventAsync(IsDeleted.Id);
 
             return IsDeleted.Id;
         }
@@ -169,9 +147,18 @@ namespace StudentsEvents.API.Services
         {
             await _eventData.DeleteUpdateEventAsync(guid, date);
         }
-        public async Task<bool> IsDeletedAsync(Guid id)
+        public async Task<EventModel?> IsDeletedAsync(Guid id)
         {
-            return (await _eventData.GetDeletedAsync()).Single(x => x.Id == id) != null;
+            var del = await _eventData.GetDeletedAsync();
+            return _mapper.Map<EventModel?>((del)
+                .FirstOrDefault(x => x.Id == id));
+        }
+        public async Task UpdateDeletedEventAsync(EventUpdateModel modified, string id)
+        {
+            var eventToModify = _mapper.Map<EventDatabaseModel>(modified);
+            eventToModify.OwnerID = id;
+            eventToModify.Published = false;
+            await _eventData.UpdateDeletedEventAsync(eventToModify);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentsEvents.API.Models;
@@ -14,11 +15,14 @@ namespace StudentsEvents.API.Controllers
     {
         private readonly IEventDataManaging _eventData;
         private readonly ILogger<EventsController> _logger;
+        private readonly IMapper _mapper;
 
-        public EventsController(IEventDataManaging eventData, ILogger<EventsController> logger)
+        public EventsController(IEventDataManaging eventData, ILogger<EventsController> logger,
+            IMapper mapper)
         {
             _eventData = eventData;
             _logger = logger;
+            _mapper = mapper;
         }
 
         //[HttpGet("GetAll")]
@@ -179,10 +183,20 @@ namespace StudentsEvents.API.Controllers
         public async Task<IActionResult> Create([FromBody] EventAddModel data)
         {
             Guid id;
-            if (await _eventData.IsDeletedAsync(data.Id))
-                id = await _eventData.EditDeletedAsync(data);
-            else
+            var deleted = (await _eventData.IsDeletedAsync(data.Id));
+            if (data.Id == Guid.Empty)
+            {
                 id = await _eventData.CreateAsync(data, GetUserId());
+            }
+            else if (deleted != null && (deleted?.OwnerID == GetUserId() || IsAdmin()))
+            {
+                id = data.Id;
+                await _eventData.UpdateDeletedEventAsync(_mapper.Map<EventUpdateModel>(data), deleted?.OwnerID);
+            }
+            else
+            {
+                id = await _eventData.CreateAsync(data, GetUserId());
+            }
             return Ok(id);
         }
         [Authorize]
@@ -203,10 +217,7 @@ namespace StudentsEvents.API.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var model = await _eventData.GetByIdAsync(id);
-            if (GetUserId() != model.OwnerID && User.Claims
-                .Where(x => x.Type.Contains("role"))
-                ?.FirstOrDefault()
-                ?.Value != "Admin")
+            if (GetUserId() != model.OwnerID && !IsAdmin())
             {
                 return Unauthorized("You are not the owner or admin");
             }
@@ -216,6 +227,13 @@ namespace StudentsEvents.API.Controllers
         private string GetUserId()
         {
             return User.Claims.Where(x => x.Type == "user_id").Single().Value;
+        }
+        private bool IsAdmin()
+        {
+            return User.Claims
+                .Where(x => x.Type.Contains("role"))
+                ?.FirstOrDefault()
+                ?.Value == "Admin";
         }
     }
 }
