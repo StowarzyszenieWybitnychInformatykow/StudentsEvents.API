@@ -196,6 +196,7 @@ namespace StudentsEvents.Library.Data
                 data.Tags = new List<Tag>();
                 data.LastModified = DateTimeOffset.Now;
 
+                await _context.SaveChangesAsync();
                 await _tagEventData.AddTagsToUpdatedEvent(model.Tags, model.Id);
             }
             await _context.SaveChangesAsync();
@@ -252,8 +253,8 @@ namespace StudentsEvents.Library.Data
             data.LastModified = DateTimeOffset.Now;
             data.IsDeleted = false;
 
-            await _tagEventData.AddTagsToUpdatedEvent(model.Tags, model.Id);
             await _context.SaveChangesAsync();
+            await _tagEventData.AddTagsToUpdatedEvent(model.Tags, model.Id);
         }
     }
 }
